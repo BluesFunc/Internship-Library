@@ -5,9 +5,9 @@ namespace Domain.Entities;
 
 public class User: Entity, IAuditableEntity
 {
-    public string Username { get; set; }
-    public string Mail { get; set; }
-    public string Password { get; set;}
+    public string Username { get; set; } = null!;
+    public string Mail { get; set; } = null!;
+    public string Password { get; set;} = null!;
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
 }

@@ -1,13 +1,14 @@
-﻿using Domain.Abstraction;
+﻿using Application.Wrappers;
+using Domain.Abstraction;
 
 namespace Application.Interfaces.Repositories;
 
 public interface IGenericRepository<T> where T: Entity 
 {
-    IQueryable<T> Entities { get; }
     Task<T> GetByIdAsync(Guid id);
     Task<List<T>> GetAllAsync();
+    Task<PaginationList<T>> GetPaginatedAsync(int pageNo, int pageSize);
     Task<T> AddAsync(T entity);
     Task UpdateAsync(T entity);
-    Task DeleteAsync(T entity);
+    Task DeleteByIdAsync(Guid id);
 }

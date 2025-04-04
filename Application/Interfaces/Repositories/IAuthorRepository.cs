@@ -1,5 +1,6 @@
-﻿using Domain.Entities;
+﻿using Application.QueryParams;
+using Domain.Entities;
 
 namespace Application.Interfaces.Repositories;
 
-public interface IAuthorRepository: IGenericRepository<Author>;
+public interface IAuthorRepository: IPaginatedRepository<Author, AuthorQueryParams>;

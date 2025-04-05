@@ -1,4 +1,5 @@
-﻿using Application.Wrappers;
+﻿using Application.Interfaces;
+using Application.Wrappers;
 using Application.Interfaces.Repositories;
 using Domain.Entities;
 using FluentValidation;
@@ -15,7 +16,10 @@ public record CreateAuthorCommand : IRequest<Result>
     public string Country { get; init; } = null!;
 }
 
-public class CreateAuthorCommandHandler(IAuthorRepository repository) 
+public class CreateAuthorCommandHandler(
+    IAuthorRepository repository,
+    IUnitOfWork unitOfWork
+    ) 
     : IRequestHandler<CreateAuthorCommand, Result>
 {
     public async Task<Result> Handle(
@@ -26,24 +30,24 @@ public class CreateAuthorCommandHandler(IAuthorRepository repository)
 
         var author = request.Adapt<Author>();
         var result = await repository.AddAsync(author);
+        await unitOfWork.SaveChangesAsync(cancellationToken);
         return Result.Successful();
     }
 }
 
-class CreateAuthorCommandValidator : AbstractValidator<CreateAuthorCommand>
+internal class CreateAuthorCommandValidator : AbstractValidator<CreateAuthorCommand>
 {
     public CreateAuthorCommandValidator()
     {
         RuleFor(x => x.Name)
             .NotEmpty()
             .MaximumLength(30);
-        RuleFor(x => x.Name)
+        RuleFor(x => x.Surname)
             .NotEmpty()
             .MaximumLength(30);
-        RuleFor(x => x.Name)
-            .NotEmpty()
-            .MaximumLength(30);
-        RuleFor(x => x.Name)
+        RuleFor(x => x.BirthDate)
+            .LessThan(DateOnly.FromDateTime(DateTime.Today));
+        RuleFor(x => x.Country)
             .NotEmpty()
             .MaximumLength(30);
 

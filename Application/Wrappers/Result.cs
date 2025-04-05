@@ -5,11 +5,16 @@ namespace Application.Wrappers;
 public record Result
 {
     public bool Succeed { get; init; }
-    
-    public static Result Successful() => new Result() { Succeed = true };
-    
-    public static Result Failed() => new Result() { Succeed = false};
+    public string? Message { get; init; }
 
+    public static Result Successful() => new Result() { Succeed = true };
+
+    public static Result Failed(string message)
+        => new Result()
+        {
+            Succeed = false,
+            Message = message
+        };
 }
 
 public record Result<T> : Result
@@ -21,5 +26,12 @@ public record Result<T> : Result
         {
             Succeed = true,
             Content = content
+        };
+    
+    public new static Result<T> Failed(string message)
+        => new Result<T>()
+        {
+            Succeed = false,
+            Message = message
         };
 }

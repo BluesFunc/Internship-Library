@@ -8,7 +8,7 @@ using MediatR;
 
 namespace Application.Features.Books.Commands;
 
-public record CreateBookCommand : IRequest<Result>
+public record CreateBookCommand : IRequest<Result<Book>>
 {
     public string Name { get; init; } = null!;
     public string Isbn { get; init; } = null!;
@@ -22,13 +22,18 @@ public class CreateBookHandler(
     IBookRepository bookRepository,
     IAuthorRepository authorRepository,
     IMapper mapper
-) : IRequestHandler<CreateBookCommand, Result>
+) : IRequestHandler<CreateBookCommand, Result<Book>>
 {
-    public async Task<Result> Handle(
+
+ public async Task<Result<Book>> Handle(
         CreateBookCommand request,
         CancellationToken cancellationToken)
     {
         var author = await authorRepository.GetByIdAsync(request.AuthorId);
+        if (author == null)
+        {
+            return Result<Book>.Failed("Author is missing");
+        }
         var newBook = new Book()
         {
             Author = author,
@@ -38,7 +43,7 @@ public class CreateBookHandler(
             Isbn = request.Isbn,
             Genre = request.Genre
         };
-        await bookRepository.AddAsync(newBook);
-        return Result.Successful();
+        var result = await bookRepository.AddAsync(newBook);
+        return Result<Book>.Successful(result);
     }
 }

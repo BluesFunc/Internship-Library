@@ -1,6 +1,32 @@
 ﻿services:
-  webapi:
-    image: webapi
+  app-server:
+    image: library-api
     build:
       context: .
       dockerfile: WebAPI/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      CONNECTION_STRING: "host=postgres;port=5432;database=library;username=aleks;password=1234"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - '80:80'
+      - '443:443'
+
+  postgres:
+    image: postgres:16
+    volumes:
+      - db_volume:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: "aleks"
+      POSTGRES_PASSWORD: "1234"
+      POSTGRES_DB: "library"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U aleks -d library" ]
+      interval: 2s
+      timeout: 2s
+      retries: 20
+
+volumes:
+  db_volume:

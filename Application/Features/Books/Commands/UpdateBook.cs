@@ -1,4 +1,5 @@
 ﻿using Application.DTOs._Book_;
+using Application.Interfaces;
 using Application.Interfaces.Repositories;
 using MediatR;
 using Application.Wrappers;
@@ -22,15 +23,23 @@ public class UpdateBookCommand : IRequest<Result>
 
 public class UpdateBookHandler(
     IBookRepository repository,
-    IMapper mapper)
+    IMapper mapper,
+    IUnitOfWork unitOfWork)
     : IRequestHandler<UpdateBookCommand, Result>
 {
+    private string BookMissingMessage = "Book is missing"; 
     public async Task<Result> Handle
         (UpdateBookCommand request, CancellationToken cancellationToken)
     {
         var book = await repository.GetByIdAsync(request.Id);
+        if (book == null)
+        {
+            return Result.Failed(BookMissingMessage);
+        }
+            
         book = request.Adapt<Book>();
         await repository.UpdateAsync(book);
+        await unitOfWork.SaveChangesAsync(new CancellationToken());
         return Result.Successful();
     }
 }

@@ -1,4 +1,8 @@
+using Application;
 using Infrastructure;
+using Infrastructure.Extension;
+using Microsoft.AspNetCore.Authorization;
+
 namespace WebAPI;
 
 public class Program
@@ -11,7 +15,9 @@ public class Program
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer()
             .AddSwaggerGen()
-            .AddInfrastructureService();
+            .AddApplication()
+            .AddInfrastructure();
+            
         
         var app = builder.Build();
 
@@ -23,12 +29,10 @@ public class Program
         }
 
         app.UseHttpsRedirection();
-
-        app.UseAuthorization();
-
-
+        
         app.MapControllers();
 
+        app.MapGet("/hello", [Authorize]() => "Hello world!");
         app.Run();
     }
 }

@@ -5,6 +5,5 @@ namespace Application.Interfaces;
 
 public interface IUnitOfWork: IDisposable
 {
-    Task<int> Save(CancellationToken cancellationToken);
-    Task Rollback();
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

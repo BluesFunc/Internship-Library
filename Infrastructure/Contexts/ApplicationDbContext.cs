@@ -1,18 +1,26 @@
-﻿using Domain.Abstraction;
+﻿using System.Reflection;
+using Application.Interfaces;
+using Domain.Abstraction;
 using Domain.Entities;
 using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Contexts;
 
-public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> optionsBuilder): DbContext(optionsBuilder)
+public class ApplicationDbContext
+    (DbContextOptions<ApplicationDbContext> optionsBuilder) : DbContext(optionsBuilder), IUnitOfWork
 {
     public DbSet<User> Users { get; set; }
     public DbSet<Book> Books { get; set; }
     public DbSet<Author> Authors { get; set; }
 
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
    
-    public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = new CancellationToken())
+     modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+    }
+
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         foreach (var entry in ChangeTracker.Entries<IAuditableEntity>())
         {
@@ -37,6 +45,5 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
             
         }
         return base.SaveChangesAsync(cancellationToken);
-        
     }
 }

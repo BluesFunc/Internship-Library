@@ -1,4 +1,5 @@
-﻿using Application.Interfaces.Repositories;
+﻿using Application.Interfaces;
+using Application.Interfaces.Repositories;
 using Application.Wrappers;
 using MediatR;
 
@@ -9,7 +10,7 @@ public record DeleteAuthorByIdCommand : IRequest<Result>
     public Guid Id { get; init; }
 }
 
-public class DeleteAuthorByIdHandler(IAuthorRepository repository) : IRequestHandler<DeleteAuthorByIdCommand, Result>
+public class DeleteAuthorByIdHandler(IAuthorRepository repository, IUnitOfWork unitOfWork) : IRequestHandler<DeleteAuthorByIdCommand, Result>
 {
     public async Task<Result> Handle(
         DeleteAuthorByIdCommand request, 
@@ -17,6 +18,7 @@ public class DeleteAuthorByIdHandler(IAuthorRepository repository) : IRequestHan
         )
     {
         await repository.DeleteByIdAsync(request.Id);
+        await unitOfWork.SaveChangesAsync(cancellationToken);
         return Result.Successful();
     }
 }

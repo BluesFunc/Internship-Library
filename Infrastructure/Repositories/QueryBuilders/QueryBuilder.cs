@@ -11,4 +11,9 @@ public abstract class QueryBuilder<T>(IQueryable<T> query) where T : Entity
             .Take(pageSize);
         return await query.ToListAsync();
     }
+
+    public  Task<T?> GetEntity()
+    {
+        return query.FirstOrDefaultAsync();
+    }
 }

@@ -23,7 +23,6 @@
         "SECRET_KEY": "fb735a9fb746af971ce8410cc9af311209a842d936dde33cadb90acaa247d64a",
         "ACCESS_TOKEN_LIFETIME": "15",
         "REFRESH_TOKEN_LIFETIME": "30"
-        
       }
     },
     "https": {

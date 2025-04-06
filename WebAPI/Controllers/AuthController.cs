@@ -4,14 +4,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
 
-[ApiController]
-[Route("[controller]")]
-public class AuthController(ISender sender) : ControllerBase
+public class AuthController(ISender sender) : RestController(sender)
 {
     [HttpPost("register")]
-    public async Task<IActionResult> Register(RegisterUserCommand command)
-    {
-        var result = await sender.Send(command);
-        return Ok(result);
-    } 
+    public async Task<IActionResult> Register(RegisterUserCommand command) 
+        => await ExecuteMediatrCommand(command);
+    
+
+    [HttpPost("login")]
+    public async Task<IActionResult> Login(LoginUserCommand command)
+        => await ExecuteMediatrCommand(command);
+
+    [HttpPost("refresh")]
+    public async Task<IActionResult> Refresh(RefreshTokenCommand command)
+        => await ExecuteMediatrCommand(command);
 }

@@ -6,12 +6,17 @@
       dockerfile: WebAPI/Dockerfile
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
-      CONNECTION_STRING: "host=postgres;port=5432;database=library;username=aleks;password=1234"
+      CONNECTION_STRING: "host=library-db;port=5432;database=library;username=aleks;password=1234"
+      "ISSUER": "Library-api"
+      "AUDIENCE": "Customers"
+      "SECRET_KEY": "fb735a9fb746af971ce8410cc9af311209a842d936dde33cadb90acaa247d64a"
+      "ACCESS_TOKEN_LIFETIME": "15"
+      "REFRESH_TOKEN_LIFETIME": "30"
     depends_on:
       library-db:
         condition: service_healthy
     ports:
-      - '80:80'
+      - '8080:8080'
       - '443:443'
 
   library-db:
@@ -27,6 +32,8 @@
       interval: 2s
       timeout: 2s
       retries: 20
+    ports:
+      - '5433:5432'
 
 volumes:
   db_volume:

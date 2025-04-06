@@ -23,7 +23,7 @@ public class GetPaginatedAuthorHandler(
     {
         var queryParams = new AuthorQueryParams()
             { PageNo = request.PageNo, PageSize = request.PageSize };
-        var paginationList = await repository.GetPaginatedAsync(queryParams);
+        var paginationList = await repository.GetPaginatedCollectionAsync(queryParams);
         var data = mapper.Map<List<AuthorDto>>(paginationList);
         var content = new PaginationList<AuthorDto>()
         {

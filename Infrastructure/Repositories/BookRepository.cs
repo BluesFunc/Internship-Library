@@ -1,38 +1,28 @@
 ﻿using Application.Interfaces.Repositories;
 using Application.QueryParams;
 using Domain.Entities;
+using Infrastructure.Contexts;
+using Infrastructure.Repositories.Abstractions;
+using Infrastructure.Repositories.QueryBuilders;
 
 namespace Infrastructure.Repositories;
 
-public class BookRepository : IBookRepository
+public class BookRepository(ApplicationDbContext context) : RepositoryBase<Book>(context), IBookRepository
 {
-    public async Task<Book?> GetByIdAsync(Guid id)
+    public async Task<ICollection<Book>> GetPaginatedCollectionAsync(BookQueryParams filter)
     {
-        throw new NotImplementedException();
+        var query = context.Books.AsQueryable();
+        return await new BookQueryBuilder(query)
+            .ByAuthor(filter.AuthorId)
+            .BuildPaginatedListAsync(filter.PageNo,filter.PageSize );
     }
 
-    public async Task<List<Book>> GetAllAsync()
+    public async Task<Book?> GetEntityByFilter(BookQueryParams filter)
     {
-        throw new NotImplementedException();
+        var query = context.Books.AsQueryable();
+        return await new BookQueryBuilder(query)
+            .ByIsbn(filter.Isbn)
+            .GetEntity();
     }
-
-    public async Task<Book> AddAsync(Book entity)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task UpdateAsync(Book entity)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task DeleteByIdAsync(Guid id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task<ICollection<Book>> GetPaginatedAsync(BookQueryParams filter)
-    {
-        throw new NotImplementedException();
-    }
+    
 }

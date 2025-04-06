@@ -28,7 +28,7 @@ public class GetPaginatedBooksHandler(
             PageNo = request.PageNo
         };
         var paginatedBooks = await bookRepository
-            .GetPaginatedAsync(queryParams);
+            .GetPaginatedCollectionAsync(queryParams);
         var data = mapper.Map<List<BookDto>>(paginatedBooks);
         var paginatedContent = new PaginationList<BookDto>()
         {

@@ -1,8 +1,6 @@
-﻿using Domain.Entities;
+﻿using Application.QueryParams;
+using Domain.Entities;
 
 namespace Application.Interfaces.Repositories;
 
-public interface IUserRepository : IGenericRepository<User>
-{
-    
-}
+public interface IUserRepository : IPaginatedRepository<User,UserQueryParams>;

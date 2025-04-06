@@ -1,5 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
+using System.Runtime.Intrinsics.Arm;
+using System.Security.Cryptography;
 using Application.Behaviors;
 using Application.Extensions;
 using Application.Interfaces.Services;
@@ -26,10 +28,9 @@ public static class DependencyInjection
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         services.AddSingleton<IJwtService, JwtService>(opt 
             => new JwtService(new JwtSecurityTokenHandler()));
+        services.AddScoped<PasswordService>(opt => new PasswordService(SHA256.Create()));
         services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
         services.AddAuth();
-        
-        
         return services;
         
     }

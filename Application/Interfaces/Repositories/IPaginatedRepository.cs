@@ -7,5 +7,6 @@ public interface IPaginatedRepository<TEntity, TFilter> : IGenericRepository<TEn
     where TEntity : Entity
     where TFilter : PaginationQueryParams 
 {
-    Task<ICollection<TEntity>> GetPaginatedAsync(TFilter filter);
+    Task<ICollection<TEntity>> GetPaginatedCollectionAsync(TFilter filter);
+    Task<TEntity?> GetEntityByFilter(TFilter filter);
 }

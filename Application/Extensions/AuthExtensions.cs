@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Application.Extensions;
 
+
 internal static class AuthExtensions
 {
     public static IServiceCollection AddAuth(this IServiceCollection services)

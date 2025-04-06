@@ -19,7 +19,7 @@ public record Result
 
 public record Result<T> : Result
 {
-    public T Content { get; init; } = default!;
+    public T? Content { get; init; }
 
     public static Result<T> Successful(T content)
         => new Result<T>()

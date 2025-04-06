@@ -1,6 +1,7 @@
 ﻿using Application.Features.Authors.Commands;
 using Application.Features.Authors.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
@@ -9,6 +10,7 @@ namespace WebAPI.Controllers;
 [Route("[controller]")]
 public class AuthorController(ISender sender) : ControllerBase
 {
+    [Authorize(Policy = "CreateAuthor")]
     [HttpPost("create")]
     public  async Task<IActionResult> Create(CreateAuthorCommand command)
     {

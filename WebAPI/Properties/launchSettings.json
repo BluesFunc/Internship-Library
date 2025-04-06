@@ -17,7 +17,13 @@
       "applicationUrl": "http://localhost:5122",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "CONNECTION_STRING": "Server=localhost;Port=5432;Database=library;UserId=aleks;Password=1234;"
+        "CONNECTION_STRING": "Server=localhost;Port=5432;Database=library;UserId=aleks;Password=1234;",
+        "ISSUER": "Library-api",
+        "AUDIENCE": "Customers",
+        "SECRET_KEY": "fb735a9fb746af971ce8410cc9af311209a842d936dde33cadb90acaa247d64a",
+        "ACCESS_TOKEN_LIFETIME": "15",
+        "REFRESH_TOKEN_LIFETIME": "30"
+        
       }
     },
     "https": {

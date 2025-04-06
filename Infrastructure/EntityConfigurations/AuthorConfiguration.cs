@@ -19,5 +19,8 @@ public class AuthorConfiguration : IEntityTypeConfiguration<Author>
         builder.Property(x => x.Country)
             .HasMaxLength(50)
             .IsRequired();
+        builder.HasMany<Book>(x => x.Books)
+            .WithOne(book => book.Author)
+            .HasForeignKey(book => book.AuthorId);
     }
 }

@@ -16,6 +16,7 @@ internal static class DatabaseExtension
         service.AddDbContext<IUnitOfWork, ApplicationDbContext>(option =>
             option.UseNpgsql(Environment.GetEnvironmentVariable("CONNECTION_STRING")));
         service.AddScoped<IAuthorRepository, AuthorRepository>();
+        service.AddScoped<IUserRepository, UserRepository>();
         service.AddScoped<IBookRepository, BookRepository>();
         return service;
     }

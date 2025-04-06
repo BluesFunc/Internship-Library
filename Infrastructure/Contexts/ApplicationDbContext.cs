@@ -16,10 +16,10 @@ public class ApplicationDbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-   
-     modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+         
     }
-
+    
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         foreach (var entry in ChangeTracker.Entries<IAuditableEntity>())
@@ -33,16 +33,6 @@ public class ApplicationDbContext
                     entry.Entity.UpdatedAt = DateTime.UtcNow;
                     break;
             }
-        }
-        foreach (var entry in ChangeTracker.Entries<Entity>())
-        {
-            switch (entry.State)
-            {
-                case EntityState.Added:
-                    entry.Entity.Id = Guid.NewGuid();
-                    break;
-            }
-            
         }
         return base.SaveChangesAsync(cancellationToken);
     }

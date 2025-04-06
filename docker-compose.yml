@@ -8,13 +8,13 @@
       ASPNETCORE_ENVIRONMENT: "Development"
       CONNECTION_STRING: "host=postgres;port=5432;database=library;username=aleks;password=1234"
     depends_on:
-      postgres:
+      library-db:
         condition: service_healthy
     ports:
       - '80:80'
       - '443:443'
 
-  postgres:
+  library-db:
     image: postgres:16
     volumes:
       - db_volume:/var/lib/postgresql/data

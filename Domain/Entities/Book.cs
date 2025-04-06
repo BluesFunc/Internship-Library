@@ -10,7 +10,9 @@ public class Book : Entity
     public BookGenre Genre { get; set; }
     public string Description { get; set; } = null!;
     public string Image { get; set; } = null!;
+    public Guid AuthorId { get; set; } 
     public Author Author { get; set; } = null!;
+    public Guid? BookedById { get; set; }
     public User? BookedBy { get; set; } = null; 
     public DateTime BookedAt { get; set; }
     public DateTime BookingDeadline { get; set; }

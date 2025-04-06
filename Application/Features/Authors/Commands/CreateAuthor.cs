@@ -35,7 +35,7 @@ public class CreateAuthorCommandHandler(
     }
 }
 
-internal class CreateAuthorCommandValidator : AbstractValidator<CreateAuthorCommand>
+public class CreateAuthorCommandValidator : AbstractValidator<CreateAuthorCommand>
 {
     public CreateAuthorCommandValidator()
     {

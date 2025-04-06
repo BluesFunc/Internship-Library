@@ -20,5 +20,10 @@ public class BookConfiguration : IEntityTypeConfiguration<Book>
         builder.Property((x => x.Isbn))
             .HasMaxLength(13)
             .IsRequired();
+        builder.HasOne<User>(book => book.BookedBy)
+            .WithMany(user => user.ReservedBooks)
+            .HasForeignKey(book => book.BookedById)
+            .OnDelete(DeleteBehavior.Restrict)
+            .IsRequired(false);
     }
 }

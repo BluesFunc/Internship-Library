@@ -3,6 +3,9 @@ using Infrastructure;
 using Infrastructure.Extension;
 using Microsoft.AspNetCore.Authorization;
 
+using WebAPI.Extensions;
+using WebAPI.Middlewares;
+
 namespace WebAPI;
 
 public class Program
@@ -11,17 +14,19 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        
-        builder.Services.AddControllers();
-        builder.Services.AddEndpointsApiExplorer()
-            .AddSwaggerGen()
-            .AddApplication()
-            .AddInfrastructure();
-            
-        
-        var app = builder.Build();
 
-        // Configure the HTTP request pipeline.
+        builder.Services.AddControllers();
+        builder.Services.AddOpenApi()
+            .AddApplication()
+            .AddInfrastructure()
+            .AddHttpLogging(o => {});
+        
+
+
+        var app = builder.Build();
+        app.UseMiddleware<ExceptionHandlerMiddleware>();
+        
+        
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
@@ -29,10 +34,12 @@ public class Program
         }
 
         app.UseHttpsRedirection();
-        
-        app.MapControllers();
 
-        app.MapGet("/hello", [Authorize]() => "Hello world!");
+        app.MapControllers();
+        app.UseAuthentication();
+        app.UseAuthorization();
+
+       
         app.Run();
     }
 }

@@ -12,7 +12,7 @@ public class BookDto : IMapFrom<Book>
     public string Description { get; set; } = null!;
     public bool IsBooked { get; set; }
     public string Image { get; set; } = null!;
-    public Author Author { get; set; } = null!;
+    public Guid AuthorId { get; set; }
     
     public void ConfigureMapping(TypeAdapterConfig config)
     {

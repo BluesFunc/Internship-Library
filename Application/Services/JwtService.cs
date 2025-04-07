@@ -28,9 +28,12 @@ public class JwtService(JwtSecurityTokenHandler handler) : IJwtService
     public bool IsTokenExpired(string encodedToken)
     {
         var token = handler.ReadJwtToken(encodedToken);
-        return token.Payload.Expiration >
+        return token.Payload.Expiration <
                (long)DateTime.UtcNow.Subtract(DateTime.UnixEpoch).TotalSeconds;
     }
+
+    public JwtSecurityToken ParseToken(string token) => handler.ReadJwtToken(token);
+    
 
     private JwtSecurityToken GenerateToken(TimeSpan tokenLifetime, List<Claim>? userClaims = null)
     {

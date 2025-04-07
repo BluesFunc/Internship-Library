@@ -11,11 +11,15 @@ namespace Infrastructure.Extension;
 
 internal static class DatabaseExtension
 {
-    public static IServiceCollection AddDatabase(this IServiceCollection service )
+    public static IServiceCollection AddDatabase(this IServiceCollection service)
     {
         service.AddDbContext<IUnitOfWork, ApplicationDbContext>(option =>
-            option.UseNpgsql(Environment.GetEnvironmentVariable("CONNECTION_STRING")));
-        service.AddScoped<IAuthorRepository, AuthorRepository>();
+        {
+            option.UseNpgsql(Environment.GetEnvironmentVariable("CONNECTION_STRING"));
+            option.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+        } );
+
+    service.AddScoped<IAuthorRepository, AuthorRepository>();
         service.AddScoped<IUserRepository, UserRepository>();
         service.AddScoped<IBookRepository, BookRepository>();
         return service;

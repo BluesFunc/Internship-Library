@@ -19,7 +19,7 @@ public class UpdateBookCommand : IRequest<Result>
     public BookGenre Genre { get; init; }
     public string Description { get; init; } = null!;
     public string Image { get; init; } = null!;
-    public Author Author { get; init; } = null!;
+    public Guid  AuthorId { get; init; }
 }
 
 public class UpdateBookHandler(

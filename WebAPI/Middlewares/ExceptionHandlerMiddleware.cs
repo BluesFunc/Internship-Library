@@ -13,6 +13,7 @@ public class ExceptionHandlerMiddleware(RequestDelegate next, ILogger<ExceptionH
         {
             context.Response.StatusCode = 500;
             await context.Response.WriteAsync("Server Internal Error");
+            logger.LogError(e.Message);
             logger.LogError(e.StackTrace);
         }
     }

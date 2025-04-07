@@ -38,7 +38,7 @@ public class CreateBookHandler(
         }
         var newBook = new Book()
         {
-            Author = author,
+            AuthorId = request.AuthorId,
             Name = request.Name,
             Description = request.Description,
             Image = request.Image,

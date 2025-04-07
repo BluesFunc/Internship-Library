@@ -2,6 +2,7 @@
 using Application.Interfaces.Repositories;
 using Application.Wrappers;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 
 namespace Application.Features.Books.Commands;
 
@@ -22,10 +23,11 @@ public record ReserveBookHandler(IBookRepository Repository, IUnitOfWork UnitOfW
         {
             return Result.Failed("Not found a book");
         }
-
+        
         book.BookedById = request.UserId;
         book.BookedAt = DateTime.UtcNow;
         book.BookingDeadline = DateTime.UtcNow.AddDays(BookingPeriod);
+        await Repository.UpdateAsync(book);
         await UnitOfWork.SaveChangesAsync(cancellationToken);
         return Result.Successful();
     }

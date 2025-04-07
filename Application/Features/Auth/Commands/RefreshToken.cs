@@ -6,12 +6,14 @@ using Application.Interfaces.Services;
 using Application.Wrappers;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Net.Http.Headers;
 
 namespace Application.Features.Auth.Commands;
 
 public record RefreshTokenCommand : IRequest<Result<TokenPair>>
 {
     public string RefreshToken { get; init; }
+    
 }
 
 public class RefreshTokenHandler(
@@ -22,10 +24,11 @@ public class RefreshTokenHandler(
 {
     private readonly HttpContext _httpContext = accessor.HttpContext!;
 
+    
     public async Task<Result<TokenPair>> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
     {
-        var userId = _httpContext.User.Claims
-            .FirstOrDefault(x => x.Type == ClaimsIdentity.DefaultNameClaimType)?.Value;
+        var token = jwtService.ParseToken(_httpContext.Request.Headers[HeaderNames.Authorization].ToString().Split(' ')[1]);
+        var userId = token.Claims.FirstOrDefault(x => x.Type == ClaimsIdentity.DefaultNameClaimType)?.Value;
         if (jwtService.IsTokenExpired(request.RefreshToken))
         {
             return Result<TokenPair>.Failed("Token is expired"); 

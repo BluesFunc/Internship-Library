@@ -1,7 +1,9 @@
-﻿using Application.Interfaces.Repositories;
+﻿using Application.Interfaces;
+using Application.Interfaces.Repositories;
 using Application.Wrappers;
 using Domain.Enums;
 using Domain.Entities;
+using FluentValidation;
 using Mapster;
 using MapsterMapper;
 using MediatR;
@@ -21,7 +23,7 @@ public record CreateBookCommand : IRequest<Result<Book>>
 public class CreateBookHandler(
     IBookRepository bookRepository,
     IAuthorRepository authorRepository,
-    IMapper mapper
+    IUnitOfWork unitOfWork
 ) : IRequestHandler<CreateBookCommand, Result<Book>>
 {
 
@@ -44,6 +46,26 @@ public class CreateBookHandler(
             Genre = request.Genre
         };
         var result = await bookRepository.AddAsync(newBook);
+        await unitOfWork.SaveChangesAsync(cancellationToken);        
         return Result<Book>.Successful(result);
+    }
+}
+
+public class CreateBookCommandValidator : AbstractValidator<CreateBookCommand>
+{
+    public CreateBookCommandValidator()
+    {
+        RuleFor(x => x.Name)
+            .NotEmpty()
+            .MaximumLength(30);
+        RuleFor(x => x.Isbn)
+            .NotEmpty()
+            .MaximumLength(13);
+        RuleFor(x => x.Description)
+            .MaximumLength(300)
+            .NotEmpty();
+        RuleFor(x => x.Genre).IsInEnum();
+
+
     }
 }

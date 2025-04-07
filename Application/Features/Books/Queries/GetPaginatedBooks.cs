@@ -15,7 +15,6 @@ public class GetPaginatedBooksCommand : IRequest<Result<PaginationList<BookDto>>
 
 public class GetPaginatedBooksHandler(
     IBookRepository bookRepository,
-    IAuthorRepository authorRepository,
     IMapper mapper)
     : IRequestHandler<GetBooksByAuthorCommand, Result<PaginationList<BookDto>>>
 {

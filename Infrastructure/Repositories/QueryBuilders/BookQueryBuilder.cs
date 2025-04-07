@@ -4,6 +4,7 @@ namespace Infrastructure.Repositories.QueryBuilders;
 
 public class BookQueryBuilder(IQueryable<Book> query) : QueryBuilder<Book>(query)
 {
+    
     public BookQueryBuilder ByIsbn(string? isbn)
     {
         if (isbn != null)

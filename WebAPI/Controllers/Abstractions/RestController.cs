@@ -1,9 +1,8 @@
 ﻿using Application.Wrappers;
 using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebAPI.Controllers;
+namespace WebAPI.Controllers.Abstractions;
 
 
 [ApiController]

@@ -1,4 +1,5 @@
-﻿using Application.Interfaces.Repositories;
+﻿using Application.Interfaces;
+using Application.Interfaces.Repositories;
 using Application.Wrappers;
 using MediatR;
 
@@ -9,11 +10,13 @@ public record DeleteBookByIdCommand : IRequest<Result>
     public Guid Id { get; init; }
 }
 
-public class DeleteBookByIdHandler(IBookRepository repository) : IRequestHandler<DeleteBookByIdCommand, Result>
+public class DeleteBookByIdHandler(IBookRepository repository, IUnitOfWork unitOfWork)
+    : IRequestHandler<DeleteBookByIdCommand, Result>
 {
     public async Task<Result> Handle(DeleteBookByIdCommand request, CancellationToken cancellationToken)
     {
         await repository.DeleteByIdAsync(request.Id);
+        await unitOfWork.SaveChangesAsync(cancellationToken);
         return Result.Successful();
     }
 }

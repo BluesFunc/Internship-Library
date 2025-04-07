@@ -25,9 +25,16 @@ public class JwtService(JwtSecurityTokenHandler handler) : IJwtService
             { AccessToken = handler.WriteToken(accessToken), RefreshToken = handler.WriteToken(refreshToken) };
     }
 
+    public bool IsTokenExpired(string encodedToken)
+    {
+        var token = handler.ReadJwtToken(encodedToken);
+        return token.Payload.Expiration >
+               (long)DateTime.UtcNow.Subtract(DateTime.UnixEpoch).TotalSeconds;
+    }
+
     private JwtSecurityToken GenerateToken(TimeSpan tokenLifetime, List<Claim>? userClaims = null)
     {
-        var token  = new JwtSecurityToken(
+        var token = new JwtSecurityToken(
             issuer: AuthOptions.Issuer,
             audience: AuthOptions.Audience,
             claims: userClaims,

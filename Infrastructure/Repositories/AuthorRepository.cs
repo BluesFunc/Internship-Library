@@ -4,7 +4,6 @@ using Domain.Entities;
 using Infrastructure.Contexts;
 using Infrastructure.Repositories.Abstractions;
 using Infrastructure.Repositories.QueryBuilders;
-using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 

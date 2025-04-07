@@ -14,6 +14,7 @@ public record ReserveBookCommand : IRequest<Result>
 
 public record ReserveBookHandler(IBookRepository Repository, IUnitOfWork UnitOfWork) : IRequestHandler<ReserveBookCommand, Result>
 {
+    private int BookingPeriod = 14;
     public async Task<Result> Handle(ReserveBookCommand request, CancellationToken cancellationToken)
     {
         var book = await Repository.GetByIdAsync(request.BookId);
@@ -23,7 +24,9 @@ public record ReserveBookHandler(IBookRepository Repository, IUnitOfWork UnitOfW
         }
 
         book.BookedById = request.UserId;
-        await UnitOfWork.SaveChangesAsync();
+        book.BookedAt = DateTime.UtcNow;
+        book.BookingDeadline = DateTime.UtcNow.AddDays(BookingPeriod);
+        await UnitOfWork.SaveChangesAsync(cancellationToken);
         return Result.Successful();
     }
 }

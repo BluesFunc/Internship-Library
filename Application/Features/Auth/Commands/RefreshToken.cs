@@ -26,6 +26,10 @@ public class RefreshTokenHandler(
     {
         var userId = _httpContext.User.Claims
             .FirstOrDefault(x => x.Type == ClaimsIdentity.DefaultNameClaimType)?.Value;
+        if (jwtService.IsTokenExpired(request.RefreshToken))
+        {
+            return Result<TokenPair>.Failed("Token is expired"); 
+        } 
         if (userId == null)
         {
             return Result<TokenPair>.Failed("User is not authorized");
@@ -37,9 +41,9 @@ public class RefreshTokenHandler(
         }
         if (user.RefreshToken != request.RefreshToken)
         {
-            return Result<TokenPair>.Failed("Not valid refresh token");
+            return Result<TokenPair>.Failed("Incorrect refresh token");
         }
-
+        
         var tokenPair = jwtService.GenerateTokenPair(user);
         user.RefreshToken = tokenPair.RefreshToken;
         await unitOfWork.SaveChangesAsync(cancellationToken);

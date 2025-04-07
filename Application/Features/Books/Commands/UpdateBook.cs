@@ -5,6 +5,7 @@ using MediatR;
 using Application.Wrappers;
 using Domain.Entities;
 using Domain.Enums;
+using FluentValidation;
 using Mapster;
 using MapsterMapper;
 
@@ -39,7 +40,26 @@ public class UpdateBookHandler(
             
         book = request.Adapt<Book>();
         await repository.UpdateAsync(book);
-        await unitOfWork.SaveChangesAsync(new CancellationToken());
+        await unitOfWork.SaveChangesAsync(cancellationToken);
         return Result.Successful();
+    }
+}
+
+public class UpdateBookCommandValidator : AbstractValidator<UpdateBookCommand>
+{
+    public UpdateBookCommandValidator()
+    {
+        RuleFor(x => x.Name)
+            .NotEmpty()
+            .MaximumLength(30);
+        RuleFor(x => x.Isbn)
+            .NotEmpty()
+            .MaximumLength(13);
+        RuleFor(x => x.Description)
+            .MaximumLength(300)
+            .NotEmpty();
+        RuleFor(x => x.Genre).IsInEnum();
+
+
     }
 }

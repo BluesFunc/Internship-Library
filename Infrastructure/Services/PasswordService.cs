@@ -2,7 +2,7 @@
 using System.Text;
 using Application.Interfaces.Services;
 
-namespace Application.Services;
+namespace Infrastructure.Services;
 
 public class PasswordService(SHA256 sha) : IPasswordService
 {

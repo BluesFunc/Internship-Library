@@ -4,9 +4,7 @@ using System.Runtime.Intrinsics.Arm;
 using System.Security.Cryptography;
 using Application.Behaviors;
 using Application.Extensions;
-using Application.Injections;
 using Application.Interfaces.Services;
-using Application.Services;
 using FluentValidation;
 using Mapster;
 using MediatR;
@@ -27,11 +25,8 @@ public static class DependencyInjection
             cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         });
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-        services.AddSingleton<IJwtService, JwtService>(opt 
-            => new JwtService(new JwtSecurityTokenHandler()));
-        services.AddScoped<PasswordService>(opt => new PasswordService(SHA256.Create()));
+      
         services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
-        services.AddAuth();
         return services;
         
     }

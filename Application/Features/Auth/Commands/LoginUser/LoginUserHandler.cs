@@ -2,21 +2,14 @@
 using Application.Interfaces.Repositories;
 using Application.Interfaces.Services;
 using Application.QueryParams;
-using Application.Services;
 using Application.Wrappers;
-using FluentValidation;
 using MediatR;
 
-namespace Application.Features.Auth.Commands;
+namespace Application.Features.Auth.Commands.LoginUser;
 
-public record LoginUserCommand : IRequest<Result<TokenPair>>
-{
-    public string Mail { get; init; }
-    public string Password { get; init; }
-}
 
 public class LoginUserHandler
-    (IUserRepository userRepository, PasswordService passwordService, IJwtService jwtService) : IRequestHandler<LoginUserCommand, Result<TokenPair>>
+    (IUserRepository userRepository, IPasswordService passwordService, IJwtService jwtService) : IRequestHandler<LoginUserCommand, Result<TokenPair>>
 {
     public async Task<Result<TokenPair>> Handle(LoginUserCommand request, CancellationToken cancellationToken)
     {
@@ -38,19 +31,3 @@ public class LoginUserHandler
     }
 }
 
-public class LoginUserValidator : AbstractValidator<LoginUserCommand>
-{
-    public LoginUserValidator()
-    {
-        
-        RuleFor(x => x.Mail).
-            EmailAddress()
-            .MaximumLength(50)
-            .NotEmpty();
-        RuleFor(x => x.Mail)
-            .EmailAddress()
-            .MaximumLength(50)
-            .NotEmpty();
-        
-    }
-}

@@ -2,12 +2,12 @@
 using System.Security.Claims;
 using Application.DTOs._Account_;
 using Application.Interfaces.Services;
-using Application.Options;
 using Domain.Entities;
 using Domain.Enums;
+using Infrastructure.Options;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Application.Services;
+namespace Infrastructure.Services;
 
 public class JwtService(JwtSecurityTokenHandler handler) : IJwtService
 {

@@ -21,7 +21,7 @@ public class UpdateAuthorHandler(IAuthorRepository repository, IUnitOfWork unitO
     {
         var author = await repository.GetByIdAsync(request.Id);
         author = request.Adapt<Author>();
-        repository.Update(author);
+        
         await unitOfWork.SaveChangesAsync(cancellationToken);
         return Result.Successful();
     }

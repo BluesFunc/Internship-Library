@@ -1,10 +1,10 @@
-﻿using Application.Options;
-using Domain.Enums;
+﻿using Domain.Enums;
+using Infrastructure.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Application.Injections;
+namespace Infrastructure.Injections;
 
 internal static class AuthInjections
 {

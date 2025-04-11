@@ -4,6 +4,7 @@ using Application.QueryParams;
 using Application.Wrappers;
 using MapsterMapper;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace Application.Features.Authors.Queries.GetPaginatedAuthors;
 

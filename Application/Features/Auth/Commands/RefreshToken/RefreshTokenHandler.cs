@@ -8,15 +8,10 @@ using Application.Wrappers;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.Net.Http.Headers;
 
-namespace Application.Features.Auth.Commands;
+namespace Application.Features.Auth.Commands.RefreshToken;
 
-public record RefreshTokenCommand : IRequest<Result<TokenPair>>
-{
-    public string RefreshToken { get; init; }
-    
-}
+
 
 public class RefreshTokenHandler(
     IHttpContextAccessor accessor,

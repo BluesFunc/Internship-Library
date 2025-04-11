@@ -1,6 +1,5 @@
 using Application;
 using Infrastructure;
-using Infrastructure.Extension;
 using Microsoft.AspNetCore.Authorization;
 
 using WebAPI.Extensions;

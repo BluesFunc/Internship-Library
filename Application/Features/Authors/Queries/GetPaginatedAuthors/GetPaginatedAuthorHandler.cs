@@ -5,13 +5,9 @@ using Application.Wrappers;
 using MapsterMapper;
 using MediatR;
 
-namespace Application.Features.Authors.Queries;
+namespace Application.Features.Authors.Queries.GetPaginatedAuthors;
 
-public record GetPaginatedAuthorsCommand : IRequest<Result<PaginationList<AuthorDto>>>
-{
-    public int PageNo { get; init; }
-    public int PageSize { get; init; }
-}
+
 
 public class GetPaginatedAuthorHandler(
     IAuthorRepository repository,

@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Application.Extensions;
+namespace Application.Injections;
 
-internal static class AuthExtensions
+internal static class AuthInjections
 {
     public static IServiceCollection AddAuth(this IServiceCollection services)
     {

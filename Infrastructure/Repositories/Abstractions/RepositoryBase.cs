@@ -19,7 +19,7 @@ where T : Entity
         await context.Set<T>().Where(x => x.Id == id).ExecuteDeleteAsync();
     }
     
-    public async Task UpdateAsync(T entity)
+    public void  Update(T entity)
     {
         context.Update(entity);
     }

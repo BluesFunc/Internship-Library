@@ -39,7 +39,7 @@ public class UpdateBookHandler(
         }
             
         book = request.Adapt<Book>();
-        await repository.UpdateAsync(book);
+        repository.Update(book);
         await unitOfWork.SaveChangesAsync(cancellationToken);
         return Result.Successful();
     }

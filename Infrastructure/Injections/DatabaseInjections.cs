@@ -2,21 +2,18 @@
 using Application.Interfaces.Repositories;
 using Infrastructure.Contexts;
 using Infrastructure.Repositories;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 
-namespace Infrastructure.Extension;
+namespace Infrastructure.Injections;
 
-internal static class DatabaseExtension
+internal static class DatabaseInjections
 {
     public static IServiceCollection AddDatabase(this IServiceCollection service)
     {
         service.AddDbContext<IUnitOfWork, ApplicationDbContext>(option =>
         {
             option.UseNpgsql(Environment.GetEnvironmentVariable("CONNECTION_STRING"));
-            option.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
         } );
 
     service.AddScoped<IAuthorRepository, AuthorRepository>();

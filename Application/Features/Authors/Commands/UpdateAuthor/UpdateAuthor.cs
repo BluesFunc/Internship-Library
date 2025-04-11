@@ -6,16 +6,9 @@ using FluentValidation;
 using Mapster;
 using MediatR;
 
-namespace Application.Features.Authors.Commands;
+namespace Application.Features.Authors.Commands.UpdateAuthor;
 
-public record UpdateAuthorCommand : IRequest<Result>
-{
-    public Guid Id { get; init; } 
-    public string Name { get; init; } = null!;
-    public string Surname { get; init; } = null!;
-    public DateOnly BirthDate { get; init; }
-    public string Country { get; init; } = null!;
-}
+
 
 public class UpdateAuthorHandler(IAuthorRepository repository, IUnitOfWork unitOfWork) 
     : IRequestHandler<UpdateAuthorCommand, Result>
@@ -28,7 +21,7 @@ public class UpdateAuthorHandler(IAuthorRepository repository, IUnitOfWork unitO
     {
         var author = await repository.GetByIdAsync(request.Id);
         author = request.Adapt<Author>();
-        await repository.UpdateAsync(author);
+        repository.Update(author);
         await unitOfWork.SaveChangesAsync(cancellationToken);
         return Result.Successful();
     }

@@ -1,4 +1,4 @@
-﻿using Infrastructure.Extension;
+﻿using Infrastructure.Injections;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure;

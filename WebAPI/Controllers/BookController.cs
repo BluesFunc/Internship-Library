@@ -41,11 +41,7 @@ public class BookController(ISender sender) : RestController(sender)
     [HttpPost("Reserve/{bookId:guid}")]
     public async Task<IActionResult> ReserveBook(Guid bookId)
     {
-        var userId = Guid.Parse(HttpContext.User
-            .Claims.FirstOrDefault(x => x.Type == ClaimsIdentity.DefaultNameClaimType)?.Value);
-        if (userId == null)
-            return BadRequest("User id is missing");
-        var command = new ReserveBookCommand() { UserId = userId, BookId = bookId };
+        var command = new ReserveBookCommand() {  BookId = bookId };
         return await ExecuteMediatrCommand(command);
     }
 

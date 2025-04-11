@@ -1,17 +1,12 @@
 ﻿using Application.DTOs._Author_;
-using Application.DTOs._Book_;
 using Application.Interfaces.Repositories;
 using Application.Wrappers;
-using Domain.Entities;
 using MapsterMapper;
 using MediatR;
 
-namespace Application.Features.Authors.Queries;
+namespace Application.Features.Authors.Queries.GetAuthorById;
 
-public record GetAuthorByIdCommand : IRequest<Result<AuthorDto>>
-{
-    public Guid Id { get; set; }
-}
+
 
 public class GetAuthorByIdHandler(
     IAuthorRepository repository, IMapper mapper)

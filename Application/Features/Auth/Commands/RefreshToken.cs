@@ -1,11 +1,13 @@
 ﻿using System.Security.Claims;
 using Application.DTOs._Account_;
+using Application.Extensions;
 using Application.Interfaces;
 using Application.Interfaces.Repositories;
 using Application.Interfaces.Services;
 using Application.Wrappers;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 
 namespace Application.Features.Auth.Commands;
@@ -23,12 +25,18 @@ public class RefreshTokenHandler(
     IUnitOfWork unitOfWork) : IRequestHandler<RefreshTokenCommand, Result<TokenPair>>
 {
     private readonly HttpContext _httpContext = accessor.HttpContext!;
-
+    
     
     public async Task<Result<TokenPair>> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
     {
-        var token = jwtService.ParseToken(_httpContext.Request.Headers[HeaderNames.Authorization].ToString().Split(' ')[1]);
-        var userId = token.Claims.FirstOrDefault(x => x.Type == ClaimsIdentity.DefaultNameClaimType)?.Value;
+        var authorizationToken = _httpContext.GetAuthorizationToken();
+        if (authorizationToken.IsNullOrEmpty())
+        {
+            return Result<TokenPair>.Failed("Authorization header is missing");
+        }
+        var token = jwtService.ParseToken(authorizationToken);
+        var userId = token.Claims
+            .FirstOrDefault(x => x.Type == ClaimsIdentity.DefaultNameClaimType)?.Value;
         if (jwtService.IsTokenExpired(request.RefreshToken))
         {
             return Result<TokenPair>.Failed("Token is expired"); 

@@ -87,7 +87,7 @@ public class AuthorServiceTests : IDisposable
 
         await _repository.AddAsync(author);
         author.Name = "Lev";
-        await _repository.UpdateAsync(author);
+        _repository.Update(author);
 
         var updated = await _repository.GetByIdAsync(author.Id);
 

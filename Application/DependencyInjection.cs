@@ -4,6 +4,7 @@ using System.Runtime.Intrinsics.Arm;
 using System.Security.Cryptography;
 using Application.Behaviors;
 using Application.Extensions;
+using Application.Injections;
 using Application.Interfaces.Services;
 using Application.Services;
 using FluentValidation;

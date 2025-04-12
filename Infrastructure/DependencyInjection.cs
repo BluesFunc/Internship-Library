@@ -15,7 +15,7 @@ public static class DependencyInjection
         services.AddAuth();
         services.AddScoped<JwtSecurityTokenHandler>();
         services.AddScoped<IJwtService, JwtService>();
-        services.AddScoped<SHA256>();
+        services.AddScoped<SHA256>( _ => SHA256.Create());
         services.AddScoped<IPasswordService, PasswordService>();
         return services;
     }

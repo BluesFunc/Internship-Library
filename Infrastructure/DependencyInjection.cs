@@ -13,9 +13,10 @@ public static class DependencyInjection
     {
         services.AddDatabase();
         services.AddAuth();
-        services.AddSingleton<IJwtService, JwtService>(opt 
-            => new JwtService(new JwtSecurityTokenHandler()));
-        services.AddScoped<IPasswordService, PasswordService>(opt => new PasswordService(SHA256.Create()));
+        services.AddScoped<JwtSecurityTokenHandler>();
+        services.AddScoped<IJwtService, JwtService>();
+        services.AddScoped<SHA256>();
+        services.AddScoped<IPasswordService, PasswordService>();
         return services;
     }
 }

@@ -2,9 +2,9 @@
 using Application.DTOs._Account_;
 using Application.Extensions;
 using Application.Interfaces;
-using Application.Interfaces.Repositories;
 using Application.Interfaces.Services;
-using Application.Wrappers;
+using Domain.Interfaces.Repositories;
+using Domain.Models.Wrappers;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
@@ -40,7 +40,7 @@ public class RefreshTokenHandler(
         {
             return Result<TokenPair>.Failed("User is not authorized");
         }
-        var user = await userRepository.GetByIdAsync((Guid.Parse(userId)));
+        var user = await userRepository.GetByIdAsync((Guid.Parse(userId)), cancellationToken);
         if (user == null)
         {
             return Result<TokenPair>.Failed("User is not exists");

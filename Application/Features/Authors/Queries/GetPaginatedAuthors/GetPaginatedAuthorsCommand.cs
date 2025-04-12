@@ -1,5 +1,5 @@
 ﻿using Application.DTOs._Author_;
-using Application.Wrappers;
+using Domain.Models.Wrappers;
 using MediatR;
 
 namespace Application.Features.Authors.Queries.GetPaginatedAuthors;

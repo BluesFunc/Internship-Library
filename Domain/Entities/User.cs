@@ -1,6 +1,5 @@
-﻿using Domain.Abstraction;
+﻿using Domain.Entities.Abstraction;
 using Domain.Enums;
-using Domain.Interfaces;
 
 namespace Domain.Entities;
 

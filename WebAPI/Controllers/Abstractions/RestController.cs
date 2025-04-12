@@ -1,4 +1,4 @@
-﻿using Application.Wrappers;
+﻿using Domain.Models.Wrappers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

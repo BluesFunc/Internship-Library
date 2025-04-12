@@ -1,6 +1,6 @@
 ﻿using Application.DTOs._Author_;
-using Application.Interfaces.Repositories;
-using Application.Wrappers;
+using Domain.Interfaces.Repositories;
+using Domain.Models.Wrappers;
 using MapsterMapper;
 using MediatR;
 
@@ -14,7 +14,7 @@ public class GetAuthorByIdHandler(
 {
     public async Task<Result<AuthorDto>> Handle(GetAuthorByIdCommand request, CancellationToken cancellationToken)
     {
-        var author = await repository.GetByIdAsync(request.Id);
+        var author = await repository.GetByIdAsync(request.Id, cancellationToken);
         var authorDto = mapper.Map<AuthorDto>(author);
         return Result<AuthorDto>.Successful(authorDto);
     }

@@ -1,6 +1,14 @@
 ﻿using System.Security.Claims;
 using Application.Features.Books.Commands;
+using Application.Features.Books.Commands.CreateBook;
+using Application.Features.Books.Commands.DeleteBook;
+using Application.Features.Books.Commands.ReserveBook;
+using Application.Features.Books.Commands.UpdateBook;
 using Application.Features.Books.Queries;
+using Application.Features.Books.Queries.GetBook;
+using Application.Features.Books.Queries.GetBookByAuthor;
+using Application.Features.Books.Queries.GetBookByIsbn;
+using Application.Features.Books.Queries.GetPaginatedBooks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +32,7 @@ public class BookController(ISender sender) : RestController(sender)
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        var command = new DeleteBookByIdCommand() { Id = id };
+        var command = new DeleteBookCommand() { Id = id };
         return await ExecuteMediatrCommand(command);
     }
 

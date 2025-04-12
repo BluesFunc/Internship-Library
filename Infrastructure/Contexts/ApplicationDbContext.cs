@@ -1,8 +1,7 @@
 ﻿using System.Reflection;
 using Application.Interfaces;
-using Domain.Abstraction;
 using Domain.Entities;
-using Domain.Interfaces;
+using Domain.Entities.Abstraction;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Contexts;

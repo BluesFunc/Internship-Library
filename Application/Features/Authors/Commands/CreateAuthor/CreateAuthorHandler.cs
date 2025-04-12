@@ -1,7 +1,7 @@
 ﻿using Application.Interfaces;
-using Application.Interfaces.Repositories;
-using Application.Wrappers;
 using Domain.Entities;
+using Domain.Interfaces.Repositories;
+using Domain.Models.Wrappers;
 using Mapster;
 using MediatR;
 
@@ -22,7 +22,7 @@ public class CreateAuthorCommandHandler(
     {
 
         var author = request.Adapt<Author>();
-        var result = await repository.AddAsync(author);
+        var result = await repository.AddAsync(author, cancellationToken);
         await unitOfWork.SaveChangesAsync(cancellationToken);
         return Result.Successful();
     }

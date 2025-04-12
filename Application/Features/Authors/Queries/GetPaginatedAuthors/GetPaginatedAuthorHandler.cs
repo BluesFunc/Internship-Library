@@ -1,7 +1,7 @@
 ﻿using Application.DTOs._Author_;
-using Application.Interfaces.Repositories;
-using Application.QueryParams;
-using Application.Wrappers;
+using Domain.Interfaces.Repositories;
+using Domain.Models.QueryParams;
+using Domain.Models.Wrappers;
 using MapsterMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;

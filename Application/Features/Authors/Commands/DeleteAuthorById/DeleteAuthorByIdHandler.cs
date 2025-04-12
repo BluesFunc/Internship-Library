@@ -1,6 +1,6 @@
 ﻿using Application.Interfaces;
-using Application.Interfaces.Repositories;
-using Application.Wrappers;
+using Domain.Interfaces.Repositories;
+using Domain.Models.Wrappers;
 using MediatR;
 
 namespace Application.Features.Authors.Commands.DeleteAuthorById;
@@ -13,7 +13,8 @@ public class DeleteAuthorByIdHandler(IAuthorRepository repository, IUnitOfWork u
         CancellationToken cancellationToken
         )
     {
-        await repository.DeleteByIdAsync(request.Id);
+        var author = await repository.GetByIdAsync(request.Id, cancellationToken);
+        repository.Delete(author);
         await unitOfWork.SaveChangesAsync(cancellationToken);
         return Result.Successful();
     }

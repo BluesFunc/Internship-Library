@@ -1,7 +1,7 @@
 ﻿using Application.Interfaces;
-using Application.Interfaces.Repositories;
-using Application.Wrappers;
 using Domain.Entities;
+using Domain.Interfaces.Repositories;
+using Domain.Models.Wrappers;
 using FluentValidation;
 using Mapster;
 using MediatR;
@@ -19,7 +19,7 @@ public class UpdateAuthorHandler(IAuthorRepository repository, IUnitOfWork unitO
         CancellationToken cancellationToken
         )
     {
-        var author = await repository.GetByIdAsync(request.Id);
+        var author = await repository.GetByIdAsync(request.Id, cancellationToken);
         author = request.Adapt<Author>();
         
         await unitOfWork.SaveChangesAsync(cancellationToken);
@@ -27,20 +27,3 @@ public class UpdateAuthorHandler(IAuthorRepository repository, IUnitOfWork unitO
     }
 }
 
-public class UpdateAuthorValidation : AbstractValidator<UpdateAuthorCommand>
-{
-    public UpdateAuthorValidation()
-    {
-        RuleFor(x => x.Name)
-            .NotEmpty()
-            .MaximumLength(30);
-        RuleFor(x => x.Surname)
-            .NotEmpty()
-            .MaximumLength(30);
-        RuleFor(x => x.BirthDate)
-            .LessThan(DateOnly.FromDateTime(DateTime.Today));
-        RuleFor(x => x.Country)
-            .NotEmpty()
-            .MaximumLength(30);
-    }
-}

@@ -1,9 +1,4 @@
-﻿
-using Application.Interfaces.Repositories;
-using Application.QueryParams;
-
-
-using Xunit;
+﻿using Xunit;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading.Tasks;
@@ -11,6 +6,8 @@ using System.Collections.Generic;
 
 using Infrastructure.Repositories;
 using Domain.Entities;
+using Domain.Interfaces.Repositories;
+using Domain.Models.QueryParams;
 using Infrastructure.Contexts;
 using Xunit.Abstractions;
 
@@ -22,7 +19,7 @@ public class AuthorServiceTests : IDisposable
     private readonly ITestOutputHelper _testOutputHelper;
     private readonly ApplicationDbContext _context;
     private readonly IAuthorRepository _repository;
-
+    private readonly CancellationToken _cancellationToken ;
     public AuthorServiceTests(ITestOutputHelper testOutputHelper)
     {
         _testOutputHelper = testOutputHelper;
@@ -34,6 +31,7 @@ public class AuthorServiceTests : IDisposable
 
 
         _repository = new AuthorRepository(_context);
+        _cancellationToken = new CancellationToken();
     }
 
     [Fact]
@@ -48,7 +46,7 @@ public class AuthorServiceTests : IDisposable
             BirthDate = new DateOnly(1821, 11, 11)
         };
 
-        var result = await _repository.AddAsync(author);
+        var result = await _repository.AddAsync(author, _cancellationToken);
 
         Assert.NotNull(result);
         Assert.Equal("Fyodor", result.Name);
@@ -66,8 +64,8 @@ public class AuthorServiceTests : IDisposable
             BirthDate = new DateOnly(1860, 1, 29)
         };
 
-        await _repository.AddAsync(author);
-        var fetched = await _repository.GetByIdAsync(author.Id);
+        await _repository.AddAsync(author, _cancellationToken);
+        var fetched = await _repository.GetByIdAsync(author.Id, _cancellationToken);
 
         Assert.NotNull(fetched);
         Assert.Equal("Anton", fetched?.Name);
@@ -85,11 +83,11 @@ public class AuthorServiceTests : IDisposable
             BirthDate = new DateOnly(1828, 9, 9)
         };
 
-        await _repository.AddAsync(author);
+        await _repository.AddAsync(author, _cancellationToken);
         author.Name = "Lev";
         _repository.Update(author);
 
-        var updated = await _repository.GetByIdAsync(author.Id);
+        var updated = await _repository.GetByIdAsync(author.Id, _cancellationToken);
 
         Assert.NotNull(updated);
         Assert.Equal("Lev", updated?.Name);
@@ -108,7 +106,7 @@ public class AuthorServiceTests : IDisposable
                 Surname = "Writer",
                 Country = "Country",
                 BirthDate = new DateOnly(1900 + i, 1, 1)
-            });
+            }, _cancellationToken);
         }
 
         await _context.SaveChangesAsync();

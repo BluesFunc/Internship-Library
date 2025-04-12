@@ -1,9 +1,9 @@
 ﻿using Application.DTOs._Account_;
 using Application.Interfaces;
-using Application.Interfaces.Repositories;
 using Application.Interfaces.Services;
-using Application.Wrappers;
 using Domain.Entities;
+using Domain.Interfaces.Repositories;
+using Domain.Models.Wrappers;
 using Mapster;
 using MediatR;
 
@@ -24,7 +24,7 @@ public class RegisterUserHandler(
         
         var user = request.Adapt<User>();
         user.Password = passwordService.HashPassword(user.Password);
-        await repository.AddAsync(user);
+        await repository.AddAsync(user, cancellationToken);
         var tokenPair = jwtService.GenerateTokenPair(user);
         user.RefreshToken = tokenPair.RefreshToken;
         await unitOfWork.SaveChangesAsync(cancellationToken);

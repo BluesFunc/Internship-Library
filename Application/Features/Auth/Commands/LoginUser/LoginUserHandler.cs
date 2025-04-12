@@ -1,8 +1,8 @@
 ﻿using Application.DTOs._Account_;
-using Application.Interfaces.Repositories;
 using Application.Interfaces.Services;
-using Application.QueryParams;
-using Application.Wrappers;
+using Domain.Interfaces.Repositories;
+using Domain.Models.QueryParams;
+using Domain.Models.Wrappers;
 using MediatR;
 
 namespace Application.Features.Auth.Commands.LoginUser;

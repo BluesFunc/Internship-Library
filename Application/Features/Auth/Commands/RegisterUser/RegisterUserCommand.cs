@@ -1,6 +1,6 @@
 ﻿using Application.DTOs._Account_;
-using Application.Wrappers;
 using Domain.Enums;
+using Domain.Models.Wrappers;
 using MediatR;
 
 namespace Application.Features.Auth.Commands.RegisterUser;

@@ -1,4 +1,4 @@
-﻿using Domain.Abstraction;
+﻿using Domain.Entities.Abstraction;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories.QueryBuilders;

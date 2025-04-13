@@ -11,7 +11,7 @@ run tests via "dotnet test"
 
 # Fixes log
 
-## Excpetion handling
+## Exception handling
 ### Application layer
 Instead of throwing expction in application layer error there is used Result pattern with error code. Each code represented error, that identified at controller and form a result.
 ### Domain layer
@@ -19,7 +19,7 @@ There i found only one domain error. If reservation time is lower than now, it's
 ## Buissnes loigc checks
 Each use case handle different errors, that occurs. 
 ## Each File now have only one class(Except Result and Generic Result ^-^)
-## UnitOfWork replcaed by MediatrPipline
+## UnitOfWork replcaed by MediatrPipeline
 Now each command, that realise ITransactionRequest after handling use case save changes in database.
 
 

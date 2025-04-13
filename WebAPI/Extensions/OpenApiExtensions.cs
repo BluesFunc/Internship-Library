@@ -10,6 +10,12 @@ public static class OpenApiExtensions
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(swagger =>
         {
+            swagger.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Version = "v1",
+                Title = "Library API",
+
+            });
             swagger.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
             {
                 Name = "Authorization",

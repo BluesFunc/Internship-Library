@@ -1,6 +1,14 @@
 ﻿using System.Security.Claims;
 using Application.Features.Books.Commands;
+using Application.Features.Books.Commands.CreateBook;
+using Application.Features.Books.Commands.DeleteBook;
+using Application.Features.Books.Commands.ReserveBook;
+using Application.Features.Books.Commands.UpdateBook;
 using Application.Features.Books.Queries;
+using Application.Features.Books.Queries.GetBook;
+using Application.Features.Books.Queries.GetBookByAuthor;
+using Application.Features.Books.Queries.GetBookByIsbn;
+using Application.Features.Books.Queries.GetPaginatedBooks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,38 +24,28 @@ public class BookController(ISender sender) : RestController(sender)
         => await ExecuteMediatrCommand(command);
 
     [Authorize(Policy = "UpdateBook")]
-    [HttpPut("{id:guid}")]
-    public async Task<IActionResult> Update(UpdateBookCommand command, Guid id)
+    [HttpPut]
+    public async Task<IActionResult> Update(UpdateBookCommand command)
         => await ExecuteMediatrCommand(command);
 
     [Authorize(Policy = "DeleteBook")]
-    [HttpDelete("{id:guid}")]
-    public async Task<IActionResult> Delete(Guid id)
-    {
-        var command = new DeleteBookByIdCommand() { Id = id };
-        return await ExecuteMediatrCommand(command);
-    }
+    [HttpDelete]
+    public async Task<IActionResult> Delete(DeleteBookCommand command)
+        => await ExecuteMediatrCommand(command);
 
 
     [AllowAnonymous]
     [HttpGet]
-    public async Task<IActionResult> Get(int pageNo, int pageSize)
+    public async Task<IActionResult> Get(int pageNo = 1, int pageSize = 5)
     {
         var command = new GetPaginatedBooksCommand() { PageNo = pageNo, PageSize = pageSize };
         return await ExecuteMediatrCommand(command);
     }
 
     [Authorize(Policy = "ReserveBook")]
-    [HttpPost("Reserve/{bookId:guid}")]
-    public async Task<IActionResult> ReserveBook(Guid bookId)
-    {
-        var userId = Guid.Parse(HttpContext.User
-            .Claims.FirstOrDefault(x => x.Type == ClaimsIdentity.DefaultNameClaimType)?.Value);
-        if (userId == null)
-            return BadRequest("User id is missing");
-        var command = new ReserveBookCommand() { UserId = userId, BookId = bookId };
-        return await ExecuteMediatrCommand(command);
-    }
+    [HttpPost("Reserve")]
+    public async Task<IActionResult> ReserveBook(ReserveBookCommand command)
+        => await ExecuteMediatrCommand(command);
 
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> Get(Guid id)
@@ -65,7 +63,7 @@ public class BookController(ISender sender) : RestController(sender)
     }
 
     [HttpGet("getByAuthor")]
-    public async Task<IActionResult> GetByAuthor(Guid authorId, int pageNo, int pageSize)
+    public async Task<IActionResult> GetByAuthor(Guid authorId, int pageNo = 1, int pageSize = 5)
     {
         var command = new GetBooksByAuthorCommand()
         {

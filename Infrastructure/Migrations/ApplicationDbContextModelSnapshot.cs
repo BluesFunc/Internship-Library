@@ -75,6 +75,9 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime>("BookingDeadline")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(300)
@@ -97,11 +100,17 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
 
                     b.HasIndex("BookedById");
+
+                    b.HasIndex("Isbn")
+                        .IsUnique();
 
                     b.ToTable("Book", (string)null);
                 });

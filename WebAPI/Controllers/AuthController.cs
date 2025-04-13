@@ -1,4 +1,7 @@
 ﻿using Application.Features.Auth.Commands;
+using Application.Features.Auth.Commands.LoginUser;
+using Application.Features.Auth.Commands.RefreshToken;
+using Application.Features.Auth.Commands.RegisterUser;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Controllers.Abstractions;

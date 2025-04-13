@@ -1,5 +1,10 @@
 ﻿using Application.Features.Authors.Commands;
+using Application.Features.Authors.Commands.CreateAuthor;
+using Application.Features.Authors.Commands.DeleteAuthorById;
+using Application.Features.Authors.Commands.UpdateAuthor;
 using Application.Features.Authors.Queries;
+using Application.Features.Authors.Queries.GetAuthorById;
+using Application.Features.Authors.Queries.GetPaginatedAuthors;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -34,7 +39,7 @@ public class AuthorController(ISender sender) : RestController(sender)
 
     [AllowAnonymous]
     [HttpGet]
-    public async Task<IActionResult> Get(int pageNo, int pageSize)
+    public async Task<IActionResult> Get(int pageNo = 1, int pageSize = 5)
     {
         var command = new GetPaginatedAuthorsCommand() { PageNo = pageNo, PageSize = pageSize };
         return await ExecuteMediatrCommand(command);

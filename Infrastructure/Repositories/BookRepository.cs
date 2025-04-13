@@ -1,6 +1,6 @@
-﻿using Application.Interfaces.Repositories;
-using Application.QueryParams;
-using Domain.Entities;
+﻿using Domain.Entities;
+using Domain.Interfaces.Repositories;
+using Domain.Models.QueryParams;
 using Infrastructure.Contexts;
 using Infrastructure.Repositories.Abstractions;
 using Infrastructure.Repositories.QueryBuilders;

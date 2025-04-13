@@ -1,6 +1,5 @@
 ﻿services:
   app-server:
-    image: library-api
     build:
       context: .
       dockerfile: WebAPI/Dockerfile

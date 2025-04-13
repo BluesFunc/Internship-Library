@@ -1,7 +1,6 @@
 ﻿using System.Security.Claims;
 using Application.DTOs._Account_;
 using Application.Extensions;
-using Application.Interfaces;
 using Application.Interfaces.Services;
 using Domain.Interfaces.Repositories;
 using Domain.Models.Wrappers;
@@ -16,8 +15,7 @@ namespace Application.Features.Auth.Commands.RefreshToken;
 public class RefreshTokenHandler(
     IHttpContextAccessor accessor,
     IUserRepository userRepository,
-    IJwtService jwtService,
-    IUnitOfWork unitOfWork) : IRequestHandler<RefreshTokenCommand, Result<TokenPair>>
+    IJwtService jwtService) : IRequestHandler<RefreshTokenCommand, Result<TokenPair>>
 {
     private readonly HttpContext _httpContext = accessor.HttpContext!;
     
@@ -52,7 +50,6 @@ public class RefreshTokenHandler(
         
         var tokenPair = jwtService.GenerateTokenPair(user);
         user.RefreshToken = tokenPair.RefreshToken;
-        await unitOfWork.SaveChangesAsync(cancellationToken);
         return Result<TokenPair>.Successful(tokenPair);
 
     }

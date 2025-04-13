@@ -1,5 +1,4 @@
-﻿using Application.Interfaces;
-using Domain.Entities;
+﻿using Domain.Entities;
 using Domain.Interfaces.Repositories;
 using Domain.Models.Wrappers;
 using Mapster;
@@ -11,9 +10,7 @@ namespace Application.Features.Books.Commands.UpdateBook;
 
 
 public class UpdateBookHandler(
-    IBookRepository repository,
-    IMapper mapper,
-    IUnitOfWork unitOfWork)
+    IBookRepository repository)
     : IRequestHandler<UpdateBookCommand, Result>
 {
     private string BookMissingMessage = "Book is missing"; 
@@ -28,7 +25,6 @@ public class UpdateBookHandler(
             
         book = request.Adapt<Book>();
         repository.Update(book);
-        await unitOfWork.SaveChangesAsync(cancellationToken);
         return Result.Successful();
     }
 }

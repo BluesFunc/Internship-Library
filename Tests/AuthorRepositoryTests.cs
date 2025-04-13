@@ -6,7 +6,6 @@ using System.Collections.Generic;
 
 using Infrastructure.Repositories;
 using Domain.Entities;
-using Domain.Interfaces.Repositories;
 using Domain.Models.QueryParams;
 using Infrastructure.Contexts;
 using Xunit.Abstractions;
@@ -18,13 +17,13 @@ public class AuthorServiceTests : IDisposable
 {
     private readonly ITestOutputHelper _testOutputHelper;
     private readonly ApplicationDbContext _context;
-    private readonly IAuthorRepository _repository;
+    private readonly AuthorRepository _repository;
     private readonly CancellationToken _cancellationToken ;
     public AuthorServiceTests(ITestOutputHelper testOutputHelper)
     {
         _testOutputHelper = testOutputHelper;
         var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(Guid.NewGuid().ToString()) // Уникальное имя БД на каждый тест
+            .UseInMemoryDatabase(Guid.NewGuid().ToString()) 
             .Options;
 
         _context = new ApplicationDbContext(options);
@@ -39,7 +38,6 @@ public class AuthorServiceTests : IDisposable
     {
         var author = new Author
         {
-            Id = Guid.NewGuid(),
             Name = "Fyodor",
             Surname = "Dostoevsky",
             Country = "Russia",
@@ -57,7 +55,6 @@ public class AuthorServiceTests : IDisposable
     {
         var author = new Author
         {
-            Id = Guid.NewGuid(),
             Name = "Anton",
             Surname = "Chekhov",
             Country = "Russia",
@@ -65,6 +62,7 @@ public class AuthorServiceTests : IDisposable
         };
 
         await _repository.AddAsync(author, _cancellationToken);
+        await _context.SaveChangesAsync(_cancellationToken);
         var fetched = await _repository.GetByIdAsync(author.Id, _cancellationToken);
 
         Assert.NotNull(fetched);
@@ -76,7 +74,6 @@ public class AuthorServiceTests : IDisposable
     {
         var author = new Author
         {
-            Id = Guid.NewGuid(),
             Name = "Leo",
             Surname = "Tolstoy",
             Country = "Russia",
@@ -84,9 +81,10 @@ public class AuthorServiceTests : IDisposable
         };
 
         await _repository.AddAsync(author, _cancellationToken);
+        await _context.SaveChangesAsync(_cancellationToken);
         author.Name = "Lev";
         _repository.Update(author);
-
+        await _context.SaveChangesAsync(_cancellationToken);
         var updated = await _repository.GetByIdAsync(author.Id, _cancellationToken);
 
         Assert.NotNull(updated);
@@ -101,7 +99,6 @@ public class AuthorServiceTests : IDisposable
         {
             await _repository.AddAsync(new Author
             {
-                Id = Guid.NewGuid(),
                 Name = $"Author{i}",
                 Surname = "Writer",
                 Country = "Country",
@@ -109,7 +106,7 @@ public class AuthorServiceTests : IDisposable
             }, _cancellationToken);
         }
 
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(_cancellationToken);
         var filter = new AuthorQueryParams()
         {
             PageNo = 2,

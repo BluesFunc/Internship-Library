@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using Application.Interfaces;
 using Domain.Entities;
 using Domain.Entities.Abstraction;
 using Microsoft.EntityFrameworkCore;
@@ -7,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Infrastructure.Contexts;
 
 public class ApplicationDbContext
-    (DbContextOptions<ApplicationDbContext> optionsBuilder) : DbContext(optionsBuilder), IUnitOfWork
+    (DbContextOptions<ApplicationDbContext> optionsBuilder) : DbContext(optionsBuilder), IDisposable
 {
     public DbSet<User> Users { get; set; }
     public DbSet<Book> Books { get; set; }

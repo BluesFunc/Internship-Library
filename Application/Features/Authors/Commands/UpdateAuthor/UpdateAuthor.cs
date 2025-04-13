@@ -1,5 +1,4 @@
-﻿using Application.Interfaces;
-using Domain.Entities;
+﻿using Domain.Entities;
 using Domain.Interfaces.Repositories;
 using Domain.Models.Wrappers;
 using FluentValidation;
@@ -10,7 +9,7 @@ namespace Application.Features.Authors.Commands.UpdateAuthor;
 
 
 
-public class UpdateAuthorHandler(IAuthorRepository repository, IUnitOfWork unitOfWork) 
+public class UpdateAuthorHandler(IAuthorRepository repository) 
     : IRequestHandler<UpdateAuthorCommand, Result>
 {
 
@@ -22,7 +21,6 @@ public class UpdateAuthorHandler(IAuthorRepository repository, IUnitOfWork unitO
         var author = await repository.GetByIdAsync(request.Id, cancellationToken);
         author = request.Adapt<Author>();
         
-        await unitOfWork.SaveChangesAsync(cancellationToken);
         return Result.Successful();
     }
 }

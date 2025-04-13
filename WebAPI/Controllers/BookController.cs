@@ -24,17 +24,14 @@ public class BookController(ISender sender) : RestController(sender)
         => await ExecuteMediatrCommand(command);
 
     [Authorize(Policy = "UpdateBook")]
-    [HttpPut("{id:guid}")]
+    [HttpPut]
     public async Task<IActionResult> Update(UpdateBookCommand command, Guid id)
         => await ExecuteMediatrCommand(command);
 
     [Authorize(Policy = "DeleteBook")]
-    [HttpDelete("{id:guid}")]
-    public async Task<IActionResult> Delete(Guid id)
-    {
-        var command = new DeleteBookCommand() { Id = id };
-        return await ExecuteMediatrCommand(command);
-    }
+    [HttpDelete]
+    public async Task<IActionResult> Delete(DeleteBookCommand command)
+        => await ExecuteMediatrCommand(command);
 
 
     [AllowAnonymous]
@@ -46,12 +43,9 @@ public class BookController(ISender sender) : RestController(sender)
     }
 
     [Authorize(Policy = "ReserveBook")]
-    [HttpPost("Reserve/{bookId:guid}")]
-    public async Task<IActionResult> ReserveBook(Guid bookId)
-    {
-        var command = new ReserveBookCommand() {  BookId = bookId };
-        return await ExecuteMediatrCommand(command);
-    }
+    [HttpPost("Reserve")]
+    public async Task<IActionResult> ReserveBook(ReserveBookCommand command)
+        => await ExecuteMediatrCommand(command);
 
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> Get(Guid id)

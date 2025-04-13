@@ -2,5 +2,8 @@
 
 public enum ErrorType
 {
-    
+    NotFound,
+    EntityConflict,
+    ValidationError,
+    NotAuthorized
 }

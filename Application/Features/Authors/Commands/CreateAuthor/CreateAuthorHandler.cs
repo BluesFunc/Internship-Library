@@ -1,5 +1,4 @@
-﻿using Application.Interfaces;
-using Domain.Entities;
+﻿using Domain.Entities;
 using Domain.Interfaces.Repositories;
 using Domain.Models.Wrappers;
 using Mapster;
@@ -10,8 +9,7 @@ namespace Application.Features.Authors.Commands.CreateAuthor;
 
 
 public class CreateAuthorCommandHandler(
-    IAuthorRepository repository,
-    IUnitOfWork unitOfWork
+    IAuthorRepository repository
     ) 
     : IRequestHandler<CreateAuthorCommand, Result>
 {
@@ -23,7 +21,6 @@ public class CreateAuthorCommandHandler(
 
         var author = request.Adapt<Author>();
         var result = await repository.AddAsync(author, cancellationToken);
-        await unitOfWork.SaveChangesAsync(cancellationToken);
-        return Result.Successful();
+         return Result.Successful();
     }
 }

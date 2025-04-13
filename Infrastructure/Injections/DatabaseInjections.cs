@@ -11,7 +11,7 @@ internal static class DatabaseInjections
 {
     public static IServiceCollection AddDatabase(this IServiceCollection service)
     {
-        service.AddDbContext<IUnitOfWork, ApplicationDbContext>(option =>
+        service.AddDbContext<ApplicationDbContext>(option =>
         {
             option.UseNpgsql(Environment.GetEnvironmentVariable("CONNECTION_STRING"));
         } );

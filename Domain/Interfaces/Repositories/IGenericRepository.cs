@@ -1,11 +1,13 @@
-﻿using Domain.Entities.Abstraction;
+﻿using System.Linq.Expressions;
+using Domain.Entities.Abstraction;
 
 namespace Domain.Interfaces.Repositories;
 
-public interface IGenericRepository<T> where T: Entity 
+public interface IGenericRepository<T> where T : Entity
 {
-    Task<T?> GetByIdAsync(Guid id, CancellationToken token);
-    Task<T> AddAsync(T entity, CancellationToken token);
+    Task<bool> IsExistAsync(Expression<Func<T, bool>> filter, CancellationToken cancellationToken = default);
+    Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+    Task<T> AddAsync(T entity, CancellationToken cancellationToken = default);
     void Update(T entity);
     void Delete(T entity);
 }

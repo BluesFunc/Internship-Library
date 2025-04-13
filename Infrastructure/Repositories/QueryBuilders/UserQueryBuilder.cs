@@ -8,7 +8,7 @@ public class UserQueryBuilder(IQueryable<User> query) : QueryBuilder<User>(query
     {
         if (mail != null)
         {
-           query= query.Where(x => x.Mail == mail);        
+           _query = _query.Where(x => x.Mail == mail);        
         }
 
         return this;

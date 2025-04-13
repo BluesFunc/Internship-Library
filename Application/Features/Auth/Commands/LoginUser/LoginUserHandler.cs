@@ -26,6 +26,8 @@ public class LoginUserHandler
         }
         
         var tokenPair = jwtService.GenerateTokenPair(user);
+        user.RefreshToken = tokenPair.RefreshToken;
+        
         return Result<TokenPair>.Successful(tokenPair);
 
     }

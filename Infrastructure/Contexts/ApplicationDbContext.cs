@@ -5,8 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Contexts;
 
-public class ApplicationDbContext
-    (DbContextOptions<ApplicationDbContext> optionsBuilder) : DbContext(optionsBuilder), IDisposable
+public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> optionsBuilder) : DbContext(optionsBuilder)
 {
     public DbSet<User> Users { get; set; }
     public DbSet<Book> Books { get; set; }
@@ -14,10 +13,9 @@ public class ApplicationDbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-         
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
-    
+
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         foreach (var entry in ChangeTracker.Entries<IAuditableEntity>())
@@ -32,6 +30,7 @@ public class ApplicationDbContext
                     break;
             }
         }
+
         return base.SaveChangesAsync(cancellationToken);
     }
 }

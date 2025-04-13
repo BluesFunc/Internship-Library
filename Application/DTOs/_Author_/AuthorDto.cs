@@ -11,10 +11,6 @@ public class AuthorDto : IMapFrom<Author>
     public string Surname { get; set; } = null!;
     public string BirthDate { get; set; } = null!;
     public string Country { get; set; } = null!;
-
-    // public void ConfigureMapping(TypeAdapterConfig config)
-    // {
-    //     config.NewConfig<>()
-    // }
+    
     
 }

@@ -18,7 +18,7 @@ public abstract class RepositoryBase<T>(DbContext context)
 
     public async Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        var entity = await context.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
+        var entity = await context.Set<T>().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         return entity;
     }
 

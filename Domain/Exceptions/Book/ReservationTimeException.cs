@@ -2,9 +2,5 @@
 
 namespace Domain.Exceptions.Book;
 
-public class ReservationTimeException : DomainException
-{
-    public ReservationTimeException()
-    : base("Reservation time earlier than now") {}
-    
-}
+public class ReservationTimeException()
+    : DomainException("Reservation time earlier than now");

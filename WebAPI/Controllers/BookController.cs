@@ -36,7 +36,7 @@ public class BookController(ISender sender) : RestController(sender)
 
     [AllowAnonymous]
     [HttpGet]
-    public async Task<IActionResult> Get(int pageNo, int pageSize)
+    public async Task<IActionResult> Get(int pageNo = 1, int pageSize = 5)
     {
         var command = new GetPaginatedBooksCommand() { PageNo = pageNo, PageSize = pageSize };
         return await ExecuteMediatrCommand(command);
@@ -63,7 +63,7 @@ public class BookController(ISender sender) : RestController(sender)
     }
 
     [HttpGet("getByAuthor")]
-    public async Task<IActionResult> GetByAuthor(Guid authorId, int pageNo, int pageSize)
+    public async Task<IActionResult> GetByAuthor(Guid authorId, int pageNo = 1, int pageSize = 5)
     {
         var command = new GetBooksByAuthorCommand()
         {

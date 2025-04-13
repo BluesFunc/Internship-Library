@@ -14,7 +14,7 @@ public class RegisterUserHandler(
     IJwtService jwtService,
     IPasswordService passwordService
 )
-    : IRequestHandler<RegisterUserCommand, Result<TokenPair>>, ITransactionRequest
+    : IRequestHandler<RegisterUserCommand, Result<TokenPair>>
 {
     public async Task<Result<TokenPair>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {

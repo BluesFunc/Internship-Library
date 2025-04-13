@@ -25,7 +25,7 @@ public class Book : Entity, IAuditableEntity
 
     private Book(){}
 
-    public bool IsReserved => BookedById.HasValue;
+
 
     public string Name { get; set; } 
     public string Isbn { get; private set; } 
@@ -36,6 +36,7 @@ public class Book : Entity, IAuditableEntity
     public Author Author { get; private set; }
     public Guid? BookedById { get; private set; }
     public User? BookedBy { get; private set; } 
+    public bool IsReserved => BookedById.HasValue;
     public DateTime BookedAt { get; private set; }
     public DateTime BookingDeadline { get; private set; }
 

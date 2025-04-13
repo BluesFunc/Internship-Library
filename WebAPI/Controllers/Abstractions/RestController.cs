@@ -11,12 +11,29 @@ public abstract class RestController(ISender sender) : ControllerBase
 {
     protected IActionResult ToActionResult(Result result)
     {
-        return result.Succeed ? Ok(result) : BadRequest(result.Message);
+        
+        return result.ErrorCode switch
+        {
+            ErrorTypeCode.NotFound => NotFound(result.Message),
+            ErrorTypeCode.EntityConflict => BadRequest(result.Message),
+            ErrorTypeCode.ValidationError => UnprocessableEntity(result.Message),
+            ErrorTypeCode.NotAuthorized => Unauthorized(result.Message),
+            ErrorTypeCode.None => Ok(result),
+            _ => throw new ArgumentOutOfRangeException()
+        };
     }
 
     protected IActionResult ToActionResult<T> (Result<T> result)
     {
-        return result.Succeed ? Ok(result.Content) : BadRequest(result.Message);
+        return result.ErrorCode switch
+        {
+            ErrorTypeCode.NotFound => NotFound(result.Message),
+            ErrorTypeCode.EntityConflict => BadRequest(result.Message),
+            ErrorTypeCode.ValidationError => UnprocessableEntity(result.Message),
+            ErrorTypeCode.NotAuthorized => Unauthorized(result.Message),
+            ErrorTypeCode.None => Ok(result),
+            _ => throw new ArgumentOutOfRangeException()
+        };
     }
 
     protected async Task<IActionResult> ExecuteMediatrCommand(IRequest<Result> command)

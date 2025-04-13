@@ -38,18 +38,18 @@ public class ValidationBehavior<TRequest, TResponse>(IEnumerable<IValidator<TReq
         }
 
         var message = string.Join(" ", failures);
-        return ToResultResponse<TResponse>(message);
+        return ToResultResponse<TResponse>(message, ErrorTypeCode.ValidationError);
       
         
        
     }
-    private static TResponseType ToResultResponse<TResponseType>(string message)
+    private static TResponseType ToResultResponse<TResponseType>(string message, ErrorTypeCode code)
         where TResponseType : Result
     {
         
         if (typeof(TResponseType) == typeof(Result))
         {
-            return (TResponseType)Result.Failed(message);
+            return (TResponseType)Result.Failed(message, code);
         }
 
         var result = typeof(Result<>)
@@ -57,7 +57,7 @@ public class ValidationBehavior<TRequest, TResponse>(IEnumerable<IValidator<TReq
             .MakeGenericType(typeof(TResponseType).GenericTypeArguments[0])
             .GetMethods()
             .First(m => m.Name.Equals(nameof(Result.Failed)))
-            .Invoke(null, [message])!;
+            .Invoke(null, [message, code])!;
 
         return (TResponseType)result;
     }

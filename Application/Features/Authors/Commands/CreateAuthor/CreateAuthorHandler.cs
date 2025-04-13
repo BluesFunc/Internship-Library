@@ -19,7 +19,7 @@ public class CreateAuthorCommandHandler(
         )
     {
 
-        var author = request.Adapt<Author>();
+        var author = new Author(request.Name, request.Surname, request.BirthDate, request.Country);
         var result = await repository.AddAsync(author, cancellationToken);
          return Result.Successful();
     }

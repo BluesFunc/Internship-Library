@@ -8,9 +8,6 @@ public class UpdateBookCommandValidator : AbstractValidator<UpdateBookCommand>
         RuleFor(x => x.Name)
             .NotEmpty()
             .MaximumLength(30);
-        RuleFor(x => x.Isbn)
-            .NotEmpty()
-            .MaximumLength(13);
         RuleFor(x => x.Description)
             .MaximumLength(300)
             .NotEmpty();

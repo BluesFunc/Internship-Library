@@ -1,9 +1,10 @@
-﻿using Domain.Models.Wrappers;
+﻿using Application.Interfaces.Requests;
+using Domain.Models.Wrappers;
 using MediatR;
 
 namespace Application.Features.Authors.Commands.UpdateAuthor;
 
-public record UpdateAuthorCommand : IRequest<Result>
+public record UpdateAuthorCommand : IRequest<Result>, ITransactionRequest
 {
     public Guid Id { get; init; } 
     public string Name { get; init; } = null!;

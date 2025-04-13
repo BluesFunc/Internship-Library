@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using Application.Interfaces.Requests;
+using FluentValidation;
 
 namespace Application.Features.Authors.Commands.CreateAuthor;
 

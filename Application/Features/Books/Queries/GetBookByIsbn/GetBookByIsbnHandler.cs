@@ -22,7 +22,7 @@ public class GetBookByIsbnHandler(
         var book = await repository.GetEntityByFilter(filter);
         if (book == null)
         {
-            return Result<BookDto>.Failed("Book not found");
+            return Result<BookDto>.Failed("Book not found", ErrorTypeCode.NotFound);
         }
         var bookDto = mapper.Map<BookDto>(book);
         return Result<BookDto>.Successful(bookDto);

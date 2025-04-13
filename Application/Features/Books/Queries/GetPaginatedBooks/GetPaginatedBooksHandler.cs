@@ -13,9 +13,9 @@ namespace Application.Features.Books.Queries.GetPaginatedBooks;
 public class GetPaginatedBooksHandler(
     IBookRepository bookRepository,
     IMapper mapper)
-    : IRequestHandler<GetBooksByAuthorCommand, Result<PaginationList<BookDto>>>
+    : IRequestHandler<GetPaginatedBooksCommand, Result<PaginationList<BookDto>>>
 {
-    public async Task<Result<PaginationList<BookDto>>> Handle(GetBooksByAuthorCommand request,
+    public async Task<Result<PaginationList<BookDto>>> Handle(GetPaginatedBooksCommand request,
         CancellationToken cancellationToken)
     {
         var queryParams = new BookQueryParams()

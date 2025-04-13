@@ -25,27 +25,27 @@ public class RefreshTokenHandler(
         var authorizationToken = _httpContext.GetAuthorizationToken();
         if (authorizationToken.IsNullOrEmpty())
         {
-            return Result<TokenPair>.Failed("Authorization header is missing");
+            return Result<TokenPair>.Failed("Authorization header is missing", ErrorTypeCode.NotAuthorized);
         }
         var token = jwtService.ParseToken(authorizationToken);
         var userId = token.Claims
             .FirstOrDefault(x => x.Type == ClaimsIdentity.DefaultNameClaimType)?.Value;
         if (jwtService.IsTokenExpired(request.RefreshToken))
         {
-            return Result<TokenPair>.Failed("Token is expired"); 
+            return Result<TokenPair>.Failed("Token is expired", ErrorTypeCode.NotAuthorized); 
         } 
         if (userId == null)
         {
-            return Result<TokenPair>.Failed("User is not authorized");
+            return Result<TokenPair>.Failed("User is not authorized", ErrorTypeCode.NotAuthorized);
         }
         var user = await userRepository.GetByIdAsync((Guid.Parse(userId)), cancellationToken);
         if (user == null)
         {
-            return Result<TokenPair>.Failed("User is not exists");
+            return Result<TokenPair>.Failed("User is not exists", ErrorTypeCode.NotFound);
         }
         if (user.RefreshToken != request.RefreshToken)
         {
-            return Result<TokenPair>.Failed("Incorrect refresh token");
+            return Result<TokenPair>.Failed("Incorrect refresh token", ErrorTypeCode.NotAuthorized);
         }
         
         var tokenPair = jwtService.GenerateTokenPair(user);

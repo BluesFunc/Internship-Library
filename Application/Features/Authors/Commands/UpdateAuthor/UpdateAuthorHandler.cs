@@ -19,7 +19,14 @@ public class UpdateAuthorHandler(IAuthorRepository repository)
         )
     {
         var author = await repository.GetByIdAsync(request.Id, cancellationToken);
-        author = request.Adapt<Author>();
+        if (author == null)
+        {
+            return Result.Failed("Author not found", ErrorTypeCode.NotFound);
+        }
+        author.Name = request.Name;
+        author.Surname = request.Surname;
+        author.BirthDate = request.BirthDate;
+        author.Country = request.Country;
         
         return Result.Successful();
     }

@@ -13,6 +13,10 @@ public class DeleteAuthorByIdHandler(IAuthorRepository repository) : IRequestHan
         )
     {
         var author = await repository.GetByIdAsync(request.Id, cancellationToken);
+        if (author == null)
+        {
+            return Result.Failed("Author not found", ErrorTypeCode.NotFound);
+        }
         repository.Delete(author);
         return Result.Successful();
     }

@@ -16,6 +16,10 @@ public class GetBookByIdHandler(
     public async Task<Result<BookDto>> Handle(GetBookByIdCommand request, CancellationToken cancellationToken)
     {
         var book = await repository.GetByIdAsync(request.Id, cancellationToken);
+        if (book == null)
+        {
+            return Result<BookDto>.Failed("Book not found ", ErrorTypeCode.NotFound);
+        }
         var bookDto = mapper.Map<BookDto>(book);
         return Result<BookDto>.Successful(bookDto);
     }

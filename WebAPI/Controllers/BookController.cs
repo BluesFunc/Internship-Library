@@ -25,7 +25,7 @@ public class BookController(ISender sender) : RestController(sender)
 
     [Authorize(Policy = "UpdateBook")]
     [HttpPut]
-    public async Task<IActionResult> Update(UpdateBookCommand command, Guid id)
+    public async Task<IActionResult> Update(UpdateBookCommand command)
         => await ExecuteMediatrCommand(command);
 
     [Authorize(Policy = "DeleteBook")]

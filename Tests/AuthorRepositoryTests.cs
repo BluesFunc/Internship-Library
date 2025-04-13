@@ -1,8 +1,5 @@
 ﻿using Xunit;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Threading.Tasks;
-using System.Collections.Generic;
 
 using Infrastructure.Repositories;
 using Domain.Entities;
@@ -36,13 +33,12 @@ public class AuthorServiceTests : IDisposable
     [Fact]
     public async Task AddAuthor_ShouldReturnAuthor()
     {
-        var author = new Author
-        {
-            Name = "Fyodor",
-            Surname = "Dostoevsky",
-            Country = "Russia",
-            BirthDate = new DateOnly(1821, 11, 11)
-        };
+        var author = new Author(
+            name: "Fyodor",
+            surname: "Dostoevsky",
+            country : "Russia",
+            birthDate : new DateOnly(1821, 11, 11)
+        );
 
         var result = await _repository.AddAsync(author, _cancellationToken);
 
@@ -53,32 +49,30 @@ public class AuthorServiceTests : IDisposable
     [Fact]
     public async Task GetAuthorById_ShouldReturnCorrectAuthor()
     {
-        var author = new Author
-        {
-            Name = "Anton",
-            Surname = "Chekhov",
-            Country = "Russia",
-            BirthDate = new DateOnly(1860, 1, 29)
-        };
+        var author = new Author(
+            name: "Anton",
+            surname: "Chekhov",
+            country: "Russia",
+            birthDate: new DateOnly(1860, 1, 29)
+        );
 
         await _repository.AddAsync(author, _cancellationToken);
         await _context.SaveChangesAsync(_cancellationToken);
         var fetched = await _repository.GetByIdAsync(author.Id, _cancellationToken);
 
         Assert.NotNull(fetched);
-        Assert.Equal("Anton", fetched?.Name);
+        Assert.Equal("Anton", fetched.Name);
     }
 
     [Fact]
     public async Task UpdateAuthor_ShouldChangeData()
     {
-        var author = new Author
-        {
-            Name = "Leo",
-            Surname = "Tolstoy",
-            Country = "Russia",
-            BirthDate = new DateOnly(1828, 9, 9)
-        };
+        var author = new Author (
+            name : "Leo",
+            surname : "Tolstoy",
+            country : "Russia",
+            birthDate : new DateOnly(1828, 9, 9)
+        );
 
         await _repository.AddAsync(author, _cancellationToken);
         await _context.SaveChangesAsync(_cancellationToken);
@@ -88,7 +82,7 @@ public class AuthorServiceTests : IDisposable
         var updated = await _repository.GetByIdAsync(author.Id, _cancellationToken);
 
         Assert.NotNull(updated);
-        Assert.Equal("Lev", updated?.Name);
+        Assert.Equal("Lev", updated.Name);
     }
 
    
@@ -97,13 +91,12 @@ public class AuthorServiceTests : IDisposable
     {
         for (int i = 1; i <= 10; i++)
         {
-            await _repository.AddAsync(new Author
-            {
-                Name = $"Author{i}",
-                Surname = "Writer",
-                Country = "Country",
-                BirthDate = new DateOnly(1900 + i, 1, 1)
-            }, _cancellationToken);
+            await _repository.AddAsync(new Author(
+                $"Author{i}",
+                 "Writer",
+                 new DateOnly(1900 + i, 1, 1),
+                 "Country"
+            ), _cancellationToken);
         }
 
         await _context.SaveChangesAsync(_cancellationToken);

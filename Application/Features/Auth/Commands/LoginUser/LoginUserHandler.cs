@@ -17,12 +17,12 @@ public class LoginUserHandler
         var user = await userRepository.GetEntityByFilter(filter);
         if (user == null)
         {
-            return Result<TokenPair>.Failed("User is not found");
+            return Result<TokenPair>.Failed("User is not found", ErrorTypeCode.NotFound);
         }
 
         if (user.Password != passwordService.HashPassword(request.Password))
         {
-            return Result<TokenPair>.Failed("Incorrect password"); 
+            return Result<TokenPair>.Failed("Incorrect password or email", ErrorTypeCode.NotAuthorized); 
         }
         
         var tokenPair = jwtService.GenerateTokenPair(user);

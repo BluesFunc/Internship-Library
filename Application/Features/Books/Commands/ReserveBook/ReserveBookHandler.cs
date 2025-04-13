@@ -18,18 +18,23 @@ public class ReserveBookHandler(
         var book = await bookRepository.GetByIdAsync(request.BookId, cancellationToken);
         if (book == null)
         {
-            return Result.Failed("Not found a book");
+            return Result.Failed("Book not found", ErrorTypeCode.NotFound);
+        }
+
+        if (book.IsReserved)
+        {
+            return Result.Failed("Book already reserved", ErrorTypeCode.EntityConflict);
         }
 
         var userId = contextAccessor.HttpContext?.GetUserIdFromClaims();
         if (userId == null)
         {
-            return Result.Failed("User id is missing");
+            return Result.Failed("User id is missing", ErrorTypeCode.NotAuthorized);
         }
         var user = await userRepository.GetByIdAsync(userId.Value, cancellationToken);
         if (user == null)
         {
-            return Result.Failed("Given user does not exist");
+            return Result.Failed("Given user does not exist", ErrorTypeCode.NotAuthorized);
         }
         
         var bookingDeadline = DateTime.UtcNow.AddDays(_bookingPeriod);

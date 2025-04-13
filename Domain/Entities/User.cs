@@ -12,16 +12,10 @@ public class User : Entity, IAuditableEntity
     public User(
         string username,
         string mail,
-        string password,
-        string refreshToken,
-        UserRole role,
-        DateTime createdAt,
-        DateTime updatedAt)
+        UserRole role)
     {
         Username = username;
         Mail = mail;
-        Password = password;
-        RefreshToken = refreshToken;
         Role = role;
     }
 

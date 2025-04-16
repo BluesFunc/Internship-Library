@@ -15,12 +15,12 @@ public class AuthorRepository(ApplicationDbContext context) : RepositoryBase<Aut
     {
         var query = context.Authors.AsQueryable();
         return await new AuthorQueryBuilder(query)
-            .BuildPaginatedListAsync(filter.PageNo,filter.PageSize );
+            .BuildPaginatedListAsync(filter.PageNo,filter.PageSize, cancellationToken);
     }
 
     public async Task<Author?> GetEntityByFilter(AuthorQueryParams filter, CancellationToken cancellationToken = default)
     {
         var query = context.Authors.AsQueryable();
-        return await new AuthorQueryBuilder(query).GetEntity();
+        return await new AuthorQueryBuilder(query).GetEntity(cancellationToken);
     }
 }

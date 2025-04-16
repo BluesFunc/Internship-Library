@@ -14,7 +14,7 @@ public class BookRepository(ApplicationDbContext context) : RepositoryBase<Book>
         var query = context.Books.AsQueryable();
         return await new BookQueryBuilder(query)
             .ByAuthor(filter.AuthorId)
-            .BuildPaginatedListAsync(filter.PageNo,filter.PageSize );
+            .BuildPaginatedListAsync(filter.PageNo,filter.PageSize,cancellationToken);
     }
 
     public async Task<Book?> GetEntityByFilter(BookQueryParams filter, CancellationToken cancellationToken = default)
@@ -22,7 +22,7 @@ public class BookRepository(ApplicationDbContext context) : RepositoryBase<Book>
         var query = context.Books.AsQueryable();
         return await new BookQueryBuilder(query)
             .ByIsbn(filter.Isbn)
-            .GetEntity();
+            .GetEntity(cancellationToken);
     }
     
 }

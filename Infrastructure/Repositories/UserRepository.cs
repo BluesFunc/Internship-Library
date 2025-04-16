@@ -20,6 +20,6 @@ public class UserRepository(ApplicationDbContext context) : RepositoryBase<User>
         var query = context.Users.AsQueryable();
         return await new UserQueryBuilder(query)
             .ByMail(filter.Mail)
-            .GetEntity();
+            .GetEntity(cancellationToken);
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Application.DTOs._Author_;
+using Application.Wrappers;
 using Domain.Interfaces.Repositories;
-using Domain.Models.Wrappers;
 using MapsterMapper;
 using MediatR;
 

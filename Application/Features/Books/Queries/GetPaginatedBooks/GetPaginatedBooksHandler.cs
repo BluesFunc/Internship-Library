@@ -1,8 +1,8 @@
 ﻿using Application.DTOs._Book_;
 using Application.Features.Books.Queries.GetBookByAuthor;
+using Application.Wrappers;
 using Domain.Interfaces.Repositories;
 using Domain.Models.QueryParams;
-using Domain.Models.Wrappers;
 using MapsterMapper;
 using MediatR;
 
@@ -24,7 +24,7 @@ public class GetPaginatedBooksHandler(
             PageNo = request.PageNo
         };
         var paginatedBooks = await bookRepository
-            .GetPaginatedCollectionAsync(queryParams);
+            .GetPaginatedCollectionAsync(queryParams, cancellationToken);
         var data = mapper.Map<List<BookDto>>(paginatedBooks);
         var paginatedContent = new PaginationList<BookDto>()
         {

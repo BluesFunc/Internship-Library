@@ -9,15 +9,16 @@ namespace Infrastructure.Repositories;
 
 public class AuthorRepository(ApplicationDbContext context) : RepositoryBase<Author>(context), IAuthorRepository
 {
-    
-    public async Task<ICollection<Author>> GetPaginatedCollectionAsync(AuthorQueryParams filter)
+
+    public async Task<ICollection<Author>> GetPaginatedCollectionAsync(AuthorQueryParams filter,
+        CancellationToken cancellationToken = default)
     {
         var query = context.Authors.AsQueryable();
         return await new AuthorQueryBuilder(query)
             .BuildPaginatedListAsync(filter.PageNo,filter.PageSize );
     }
 
-    public async Task<Author?> GetEntityByFilter(AuthorQueryParams filter)
+    public async Task<Author?> GetEntityByFilter(AuthorQueryParams filter, CancellationToken cancellationToken = default)
     {
         var query = context.Authors.AsQueryable();
         return await new AuthorQueryBuilder(query).GetEntity();

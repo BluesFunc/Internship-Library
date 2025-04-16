@@ -9,6 +9,8 @@ public interface IJwtService
     public TokenPair GenerateTokenPair(User user);
     public bool IsTokenExpired(string encodedToken);
 
-    public JwtSecurityToken ParseToken(string token);
+    public JwtSecurityToken? ParseToken(string token);
+
+    public bool CanParseToken(string token);
 
 }

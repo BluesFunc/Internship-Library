@@ -1,5 +1,5 @@
 ﻿using Application.Interfaces.Requests;
-using Domain.Models.Wrappers;
+using Application.Wrappers;
 using MediatR;
 
 namespace Application.Features.Authors.Commands.UpdateAuthor;

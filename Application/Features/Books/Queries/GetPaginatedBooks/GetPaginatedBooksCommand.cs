@@ -1,5 +1,5 @@
 ﻿using Application.DTOs._Book_;
-using Domain.Models.Wrappers;
+using Application.Wrappers;
 using MediatR;
 
 namespace Application.Features.Books.Queries.GetPaginatedBooks;

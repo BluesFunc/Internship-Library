@@ -1,8 +1,8 @@
 ﻿using Application.DTOs._Account_;
 using Application.Interfaces.Services;
+using Application.Wrappers;
 using Domain.Interfaces.Repositories;
 using Domain.Models.QueryParams;
-using Domain.Models.Wrappers;
 using MediatR;
 
 namespace Application.Features.Auth.Commands.LoginUser;
@@ -14,7 +14,7 @@ public class LoginUserHandler
     public async Task<Result<TokenPair>> Handle(LoginUserCommand request, CancellationToken cancellationToken)
     {
         var filter = new UserQueryParams() { Mail = request.Mail };
-        var user = await userRepository.GetEntityByFilter(filter);
+        var user = await userRepository.GetEntityByFilter(filter, cancellationToken);
         if (user == null)
         {
             return Result<TokenPair>.Failed("User is not found", ErrorTypeCode.NotFound);

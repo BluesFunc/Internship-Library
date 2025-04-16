@@ -1,4 +1,4 @@
-﻿namespace Domain.Models.Wrappers;
+﻿namespace Application.Wrappers;
 
 public enum ErrorTypeCode
 {

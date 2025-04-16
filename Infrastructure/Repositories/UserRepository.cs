@@ -10,12 +10,12 @@ namespace Infrastructure.Repositories;
 
 public class UserRepository(ApplicationDbContext context) : RepositoryBase<User>(context), IUserRepository
 {
-    public async Task<ICollection<User>> GetPaginatedCollectionAsync(UserQueryParams filter)
+    public async Task<ICollection<User>> GetPaginatedCollectionAsync(UserQueryParams filter, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<User?> GetEntityByFilter(UserQueryParams filter)
+    public async Task<User?> GetEntityByFilter(UserQueryParams filter, CancellationToken cancellationToken = default)
     {
         var query = context.Users.AsQueryable();
         return await new UserQueryBuilder(query)

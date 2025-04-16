@@ -32,7 +32,15 @@ public class JwtService(JwtSecurityTokenHandler handler) : IJwtService
                (long)DateTime.UtcNow.Subtract(DateTime.UnixEpoch).TotalSeconds;
     }
 
-    public JwtSecurityToken ParseToken(string token) => handler.ReadJwtToken(token);
+    public JwtSecurityToken? ParseToken(string token)
+    {
+        return CanParseToken(token) ? handler.ReadJwtToken(token) : null;
+    }
+
+    public bool CanParseToken(string token)
+    {
+        return handler.CanReadToken(token);
+    }
     
 
     private JwtSecurityToken GenerateToken(TimeSpan tokenLifetime, List<Claim>? userClaims = null)

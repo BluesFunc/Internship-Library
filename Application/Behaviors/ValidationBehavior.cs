@@ -1,4 +1,4 @@
-﻿using Domain.Models.Wrappers;
+﻿using Application.Wrappers;
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;

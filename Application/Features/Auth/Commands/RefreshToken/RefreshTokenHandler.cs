@@ -2,8 +2,8 @@
 using Application.DTOs._Account_;
 using Application.Extensions;
 using Application.Interfaces.Services;
+using Application.Wrappers;
 using Domain.Interfaces.Repositories;
-using Domain.Models.Wrappers;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
@@ -22,17 +22,25 @@ public class RefreshTokenHandler(
     
     public async Task<Result<TokenPair>> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
     {
+        if (!jwtService.CanParseToken(request.RefreshToken))
+        {
+            return Result<TokenPair>.Failed("Invalid refresh token", ErrorTypeCode.EntityConflict);
+        }
         var authorizationToken = _httpContext.GetAuthorizationToken();
         if (authorizationToken.IsNullOrEmpty())
         {
             return Result<TokenPair>.Failed("Authorization header is missing", ErrorTypeCode.NotAuthorized);
         }
         var token = jwtService.ParseToken(authorizationToken);
+        if (token == null)
+        {
+            return Result<TokenPair>.Failed("Invalid jwt token", ErrorTypeCode.NotAuthorized);
+        }
         var userId = token.Claims
             .FirstOrDefault(x => x.Type == ClaimsIdentity.DefaultNameClaimType)?.Value;
         if (jwtService.IsTokenExpired(request.RefreshToken))
         {
-            return Result<TokenPair>.Failed("Token is expired", ErrorTypeCode.NotAuthorized); 
+            return Result<TokenPair>.Failed("Refresh token is expired", ErrorTypeCode.NotAuthorized); 
         } 
         if (userId == null)
         {

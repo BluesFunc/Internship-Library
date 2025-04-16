@@ -1,4 +1,4 @@
-﻿using Domain.Models.Wrappers;
+﻿using Application.Wrappers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -38,14 +38,14 @@ public abstract class RestController(ISender sender) : ControllerBase
 
     protected async Task<IActionResult> ExecuteMediatrCommand(IRequest<Result> command)
     {
-        var result = await sender.Send(command);
+        var result = await sender.Send(command, HttpContext.RequestAborted);
         return ToActionResult(result);
     }
     
     
     protected async Task<IActionResult> ExecuteMediatrCommand<T> (IRequest<Result<T>> command)
     {
-        var result = await sender.Send(command);
+        var result = await sender.Send(command, HttpContext.RequestAborted);
         return ToActionResult(result);
     }
 }

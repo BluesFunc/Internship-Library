@@ -1,5 +1,5 @@
 ﻿using Application.DTOs._Author_;
-using Domain.Models.Wrappers;
+using Application.Wrappers;
 using MediatR;
 
 namespace Application.Features.Authors.Queries.GetAuthorById;

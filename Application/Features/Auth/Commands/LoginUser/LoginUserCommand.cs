@@ -1,6 +1,6 @@
 ﻿using Application.DTOs._Account_;
 using Application.Interfaces.Requests;
-using Domain.Models.Wrappers;
+using Application.Wrappers;
 using MediatR;
 
 namespace Application.Features.Auth.Commands.LoginUser;

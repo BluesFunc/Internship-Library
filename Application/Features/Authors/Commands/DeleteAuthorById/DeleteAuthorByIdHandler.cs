@@ -1,5 +1,5 @@
-﻿using Domain.Interfaces.Repositories;
-using Domain.Models.Wrappers;
+﻿using Application.Wrappers;
+using Domain.Interfaces.Repositories;
 using MediatR;
 
 namespace Application.Features.Authors.Commands.DeleteAuthorById;

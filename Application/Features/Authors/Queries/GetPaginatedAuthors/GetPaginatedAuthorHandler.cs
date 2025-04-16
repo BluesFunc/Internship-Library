@@ -1,7 +1,7 @@
 ﻿using Application.DTOs._Author_;
+using Application.Wrappers;
 using Domain.Interfaces.Repositories;
 using Domain.Models.QueryParams;
-using Domain.Models.Wrappers;
 using MapsterMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -20,7 +20,7 @@ public class GetPaginatedAuthorHandler(
     {
         var queryParams = new AuthorQueryParams()
             { PageNo = request.PageNo, PageSize = request.PageSize };
-        var paginationList = await repository.GetPaginatedCollectionAsync(queryParams);
+        var paginationList = await repository.GetPaginatedCollectionAsync(queryParams, cancellationToken);
         var data = mapper.Map<List<AuthorDto>>(paginationList);
         var content = new PaginationList<AuthorDto>()
         {

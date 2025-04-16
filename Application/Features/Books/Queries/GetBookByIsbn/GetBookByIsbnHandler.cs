@@ -1,7 +1,7 @@
 ﻿using Application.DTOs._Book_;
+using Application.Wrappers;
 using Domain.Interfaces.Repositories;
 using Domain.Models.QueryParams;
-using Domain.Models.Wrappers;
 using MapsterMapper;
 using MediatR;
 
@@ -19,7 +19,7 @@ public class GetBookByIsbnHandler(
         CancellationToken cancellationToken)
     {
         var filter = new BookQueryParams() { Isbn = request.Isbn }; 
-        var book = await repository.GetEntityByFilter(filter);
+        var book = await repository.GetEntityByFilter(filter, cancellationToken);
         if (book == null)
         {
             return Result<BookDto>.Failed("Book not found", ErrorTypeCode.NotFound);

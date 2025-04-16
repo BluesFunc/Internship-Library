@@ -1,6 +1,6 @@
 ﻿using Application.Interfaces.Requests;
+using Application.Wrappers;
 using Domain.Enums;
-using Domain.Models.Wrappers;
 using MediatR;
 
 namespace Application.Features.Books.Commands.UpdateBook;
